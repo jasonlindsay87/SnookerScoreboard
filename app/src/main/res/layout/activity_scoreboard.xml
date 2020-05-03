@@ -37,9 +37,34 @@
         android:layout_marginTop="96dp"
         android:text="@string/vs"
         android:textColor="@color/colorBlack"
-        android:textSize="10sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/p2name"
         app:layout_constraintHorizontal_bias="0.562"
         app:layout_constraintStart_toEndOf="@+id/p1name"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TableLayout
+        android:layout_width="140dp"
+        android:layout_height="479dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.164"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/p1name">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <TextView
+            android:background="#F44336"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="1" />
+            <TextView
+            android:background="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="2" />
+        </TableRow>
+    </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

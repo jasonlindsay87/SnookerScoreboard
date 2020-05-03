@@ -10,8 +10,8 @@
         android:id="@+id/p1name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="52dp"
         android:text="TextView"
         android:textColor="@color/colorBlack"
         android:textSize="18sp"
@@ -22,11 +22,10 @@
         android:id="@+id/p2name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="112dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="80dp"
         android:text="TextView"
         android:textColor="@color/colorBlack"
-        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,37 +33,92 @@
         android:id="@+id/vs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="60dp"
         android:text="@string/vs"
         android:textColor="@color/colorBlack"
         android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/p2name"
-        app:layout_constraintHorizontal_bias="0.562"
+        app:layout_constraintHorizontal_bias="0.545"
         app:layout_constraintStart_toEndOf="@+id/p1name"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TableLayout
-        android:layout_width="140dp"
-        android:layout_height="479dp"
-        android:layout_marginTop="48dp"
+        android:layout_width="180dp"
+        android:layout_height="360dp"
+        android:layout_marginTop="70dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.164"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/p1name">
 
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <TextView
-            android:background="#F44336"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="1" />
+
             <TextView
-            android:background="#FFFFFF"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="2" />
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_column="1"
+                android:background="#F44336" />
+
+            <TextView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_column="2"
+                android:background="#FFFFFF" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_column="1"
+                android:background="#FFEB3B"
+                android:text=" " />
+
+            <TextView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_column="2"
+                android:background="#4CAF50" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="90dp">
+
+            <TextView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_column="1"
+                android:background="#654412" />
+
+            <TextView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_column="2"
+                android:background="#2196F3" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="90dp">
+
+            <TextView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_column="1"
+                android:background="#E65184" />
+
+            <TextView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_column="2"
+                android:background="@color/colorBlack" />
         </TableRow>
     </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

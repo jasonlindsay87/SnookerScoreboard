@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 
 public class HomeActivity extends AppCompatActivity {
-    public static final String PLAYER_ONE_NAME = "com.e.baize.MESSAGE";
-    public static final String PLAYER_TWO_NAME = "com.e.baize.MESSAGE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,13 +14,27 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void sendMessage(View view) {
-        Intent intent = new Intent(this, scoreboard.class);
-        EditText p1name = findViewById(R.id.p1name);
-        EditText p2name = findViewById(R.id.p2name);
-        String mP1name = p1name.getText().toString();
-        String mP2name = p2name.getText().toString();
-        intent.putExtra(PLAYER_ONE_NAME, mP1name);
-        intent.putExtra(PLAYER_TWO_NAME, mP2name);
-        startActivity(intent);
+        Intent Intent = new Intent(HomeActivity.this, scoreboard.class);
+        EditText eP1Name = findViewById(R.id.p1name);
+        EditText eP2Name = findViewById(R.id.p2name);
+        String sP1Name = "";
+        String sP2Name = "";
+
+        if (eP1Name.getText().toString().trim().length() < 1) {
+            sP1Name = "Player One";
+        }
+        else {
+            sP1Name = eP1Name.getText().toString();
+        }
+        if (eP2Name.getText().toString().trim().length() < 1) {
+            sP2Name = "Player Two";
+        }
+        else {
+            sP2Name = eP2Name.getText().toString();
+        }
+
+        Intent.putExtra("sP1name", sP1Name);
+        Intent.putExtra("sP2name", sP2Name);
+        startActivity(Intent);
     }
 }

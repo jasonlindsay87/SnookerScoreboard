@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="10dp"
         android:text="TextView"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:text="P1 Score"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
@@ -36,7 +36,7 @@
         android:id="@+id/p2name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="36dp"
         android:text="TextView"
         android:textColor="@color/colorWhite"
@@ -48,7 +48,7 @@
         android:id="@+id/vs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="15dp"
         android:text="@string/vs"
         android:textColor="@color/colorWhite"
         android:textSize="12sp"
@@ -59,92 +59,92 @@
 
     <TableLayout
         android:id="@+id/tableLayout"
-        android:layout_width="180dp"
-        android:layout_height="360dp"
-        android:layout_marginStart="50dp"
+        android:layout_width="160dp"
+        android:layout_height="320dp"
         android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view">
 
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="160dp"
+            android:layout_height="80dp">
 
             <TextView
                 android:id="@+id/redBall"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_column="1"
                 android:background="#F44336"
                 android:onClick="redPotted" />
 
             <TextView
                 android:id="@+id/whiteBall"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_column="2"
                 android:background="#FFFFFF" />
         </TableRow>
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="160dp"
+            android:layout_height="80dp">
 
             <TextView
                 android:id="@+id/yellowBall"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_column="1"
                 android:background="#FFEB3B"
                 android:onClick="yellowPotted" />
 
             <TextView
                 android:id="@+id/greenBall"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_column="2"
                 android:background="#4CAF50"
                 android:onClick="greenPotted" />
         </TableRow>
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="90dp">
+            android:layout_width="160dp"
+            android:layout_height="80dp">
 
             <TextView
-                android:id="@+id/brownBall"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_column="1"
                 android:background="#654412"
                 android:onClick="brownPotted" />
 
             <TextView
                 android:id="@+id/blueBall"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_column="2"
                 android:background="#2196F3"
                 android:onClick="bluePotted" />
         </TableRow>
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="90dp">
+            android:layout_width="160dp"
+            android:layout_height="80dp">
 
             <TextView
                 android:id="@+id/pinkBall"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_column="1"
                 android:background="#E65184"
                 android:onClick="pinkPotted" />
 
             <TextView
                 android:id="@+id/blackBall"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_column="2"
                 android:background="@color/colorBlack"
                 android:onClick="blackPotted" />
@@ -169,7 +169,7 @@
         android:id="@+id/view"
         class="androidx.constraintlayout.widget.Group"
         android:layout_width="377dp"
-        android:layout_height="104dp"
+        android:layout_height="75dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

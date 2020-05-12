@@ -9,7 +9,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class scoreboard extends AppCompatActivity {
+public class ScoreboardActivity extends AppCompatActivity {
     int score = 0;
     List<Integer> scoreHist = new ArrayList();
 

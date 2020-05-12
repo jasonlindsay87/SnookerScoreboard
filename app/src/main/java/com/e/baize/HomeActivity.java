@@ -14,7 +14,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void sendMessage(View view) {
-        Intent Intent = new Intent(HomeActivity.this, scoreboard.class);
+        Intent Intent = new Intent(HomeActivity.this, ScoreboardActivity.class);
         EditText eP1Name = findViewById(R.id.p1name);
         EditText eP2Name = findViewById(R.id.p2name);
         String sP1Name = "";

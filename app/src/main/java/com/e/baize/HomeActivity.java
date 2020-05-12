@@ -1,16 +1,24 @@
 package com.e.baize;
-
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.RequiresApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class HomeActivity extends AppCompatActivity {
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        Toolbar homeBar = (Toolbar) findViewById(R.id.homeToolbar);
+        setSupportActionBar(homeBar);
     }
 
     public void sendMessage(View view) {
@@ -37,4 +45,14 @@ public class HomeActivity extends AppCompatActivity {
         Intent.putExtra("sP2name", sP2Name);
         startActivity(Intent);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
 }

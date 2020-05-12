@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1B5E20">
@@ -12,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:layout_marginTop="10dp"
-        android:text="TextView"
+        android:text="@string/TextView"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/view"
@@ -24,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:layout_marginTop="5dp"
-        android:text="P1 Score"
+        android:text="@string/TextView"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/view"
@@ -38,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="36dp"
-        android:text="TextView"
+        android:text="@string/TextView"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/view"
@@ -61,11 +60,11 @@
         android:id="@+id/tableLayout"
         android:layout_width="160dp"
         android:layout_height="320dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view">
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <TableRow
@@ -155,24 +154,23 @@
         android:id="@+id/bUndo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="20dp"
         android:onClick="undoLastBall"
         android:text="@string/Undo"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout"
-        app:layout_constraintVertical_bias="0.963" />
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
     <view
         android:id="@+id/view"
         class="androidx.constraintlayout.widget.Group"
         android:layout_width="377dp"
         android:layout_height="75dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/bUndo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

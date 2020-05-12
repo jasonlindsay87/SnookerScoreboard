@@ -6,4 +6,5 @@
     <string name="start_match">Start Match</string>
     <string name="vs">vs</string>
     <string name="Undo">Undo</string>
+    <string name="TextView">TextView</string>
 </resources>

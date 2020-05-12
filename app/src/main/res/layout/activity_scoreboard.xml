@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1B5E20">
+    android:background="#2E7D32">
 
     <TextView
         android:id="@+id/p1name"
@@ -71,60 +72,67 @@
             android:layout_width="160dp"
             android:layout_height="80dp">
 
-            <TextView
-                android:id="@+id/redBall"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <ImageView
                 android:layout_column="1"
-                android:background="#F44336"
+                android:id="@+id/redBall"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:srcCompat="@drawable/red"
+                tools:layout_editor_absoluteX="6dp"
                 android:onClick="redPotted" />
 
-            <TextView
+            <ImageView
+                android:layout_column="2"
                 android:id="@+id/whiteBall"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_column="2"
-                android:background="#FFFFFF" />
+                app:srcCompat="@drawable/white"
+                tools:layout_editor_absoluteX="6dp" />
         </TableRow>
 
         <TableRow
             android:layout_width="160dp"
             android:layout_height="80dp">
 
-            <TextView
+            <ImageView
+                android:layout_column="1"
                 android:id="@+id/yellowBall"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_column="1"
-                android:background="#FFEB3B"
-                android:onClick="yellowPotted" />
+                app:srcCompat="@drawable/yellow"
+                tools:layout_editor_absoluteX="6dp"
+                android:onClick="yellowPotted"/>
 
-            <TextView
+            <ImageView
+                android:layout_column="2"
                 android:id="@+id/greenBall"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_column="2"
-                android:background="#4CAF50"
-                android:onClick="greenPotted" />
+                app:srcCompat="@drawable/green"
+                tools:layout_editor_absoluteX="6dp"
+                android:onClick="greenPotted"/>
         </TableRow>
 
         <TableRow
             android:layout_width="160dp"
             android:layout_height="80dp">
 
-            <TextView
+            <ImageView
+                android:layout_column="1"
+                android:id="@+id/brownBall"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_column="1"
-                android:background="#654412"
-                android:onClick="brownPotted" />
+                app:srcCompat="@drawable/brown"
+                tools:layout_editor_absoluteX="6dp"
+                android:onClick="brownPotted"/>
 
-            <TextView
+            <ImageView
+                android:layout_column="1"
                 android:id="@+id/blueBall"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_column="2"
-                android:background="#2196F3"
+                app:srcCompat="@drawable/blue"
+                tools:layout_editor_absoluteX="6dp"
                 android:onClick="bluePotted" />
         </TableRow>
 
@@ -132,20 +140,22 @@
             android:layout_width="160dp"
             android:layout_height="80dp">
 
-            <TextView
+            <ImageView
+                android:layout_column="1"
                 android:id="@+id/pinkBall"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_column="1"
-                android:background="#E65184"
+                app:srcCompat="@drawable/pink"
+                tools:layout_editor_absoluteX="6dp"
                 android:onClick="pinkPotted" />
 
-            <TextView
+            <ImageView
+                android:layout_column="1"
                 android:id="@+id/blackBall"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_column="2"
-                android:background="@color/colorBlack"
+                app:srcCompat="@drawable/black"
+                tools:layout_editor_absoluteX="6dp"
                 android:onClick="blackPotted" />
         </TableRow>
     </TableLayout>
@@ -162,10 +172,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
-    <view
+    <FrameLayout
         android:id="@+id/view"
-        class="androidx.constraintlayout.widget.Group"
-        android:layout_width="377dp"
+        android:layout_width="fill_parent"
         android:layout_height="75dp"
         android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"

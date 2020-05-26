@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     android:background="#2E7D32">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/scoreboardToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:minHeight="?attr/actionBarSize"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <TextView
         android:id="@+id/p1name"
         android:layout_width="wrap_content"
@@ -15,8 +25,8 @@
         android:text="@string/TextView"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/view"
-        app:layout_constraintTop_toTopOf="@+id/view" />
+        app:layout_constraintStart_toStartOf="@+id/playerFrame"
+        app:layout_constraintTop_toTopOf="@+id/playerFrame" />
 
     <TextView
         android:id="@+id/p1Score"
@@ -27,8 +37,8 @@
         android:text="@string/TextView"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/view"
-        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintBottom_toBottomOf="@+id/playerFrame"
+        app:layout_constraintStart_toStartOf="@+id/playerFrame"
         app:layout_constraintTop_toBottomOf="@+id/p1name"
         app:layout_constraintVertical_bias="0.035" />
 
@@ -41,8 +51,8 @@
         android:text="@string/TextView"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintTop_toTopOf="@+id/view" />
+        app:layout_constraintEnd_toEndOf="@+id/playerFrame"
+        app:layout_constraintTop_toTopOf="@+id/playerFrame" />
 
     <TextView
         android:id="@+id/vs"
@@ -52,10 +62,10 @@
         android:text="@string/vs"
         android:textColor="@color/colorWhite"
         android:textSize="12sp"
-        app:layout_constraintEnd_toStartOf="@+id/view"
+        app:layout_constraintEnd_toStartOf="@+id/playerFrame"
         app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toEndOf="@+id/view"
-        app:layout_constraintTop_toTopOf="@+id/view" />
+        app:layout_constraintStart_toEndOf="@+id/playerFrame"
+        app:layout_constraintTop_toTopOf="@+id/playerFrame" />
 
     <TableLayout
         android:id="@+id/tableLayout"
@@ -65,7 +75,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/scoreboardToolbar">
 
 
         <TableRow
@@ -73,19 +83,19 @@
             android:layout_height="80dp">
 
             <ImageView
-                android:layout_column="1"
                 android:id="@+id/redBall"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:layout_column="1"
+                android:onClick="redPotted"
                 app:srcCompat="@drawable/red"
-                tools:layout_editor_absoluteX="6dp"
-                android:onClick="redPotted" />
+                tools:layout_editor_absoluteX="6dp" />
 
             <ImageView
-                android:layout_column="2"
                 android:id="@+id/whiteBall"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:layout_column="2"
                 app:srcCompat="@drawable/white"
                 tools:layout_editor_absoluteX="6dp" />
         </TableRow>
@@ -95,22 +105,22 @@
             android:layout_height="80dp">
 
             <ImageView
-                android:layout_column="1"
                 android:id="@+id/yellowBall"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:layout_column="1"
+                android:onClick="yellowPotted"
                 app:srcCompat="@drawable/yellow"
-                tools:layout_editor_absoluteX="6dp"
-                android:onClick="yellowPotted"/>
+                tools:layout_editor_absoluteX="6dp" />
 
             <ImageView
-                android:layout_column="2"
                 android:id="@+id/greenBall"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:layout_column="2"
+                android:onClick="greenPotted"
                 app:srcCompat="@drawable/green"
-                tools:layout_editor_absoluteX="6dp"
-                android:onClick="greenPotted"/>
+                tools:layout_editor_absoluteX="6dp" />
         </TableRow>
 
         <TableRow
@@ -118,22 +128,22 @@
             android:layout_height="80dp">
 
             <ImageView
-                android:layout_column="1"
                 android:id="@+id/brownBall"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:layout_column="1"
+                android:onClick="brownPotted"
                 app:srcCompat="@drawable/brown"
-                tools:layout_editor_absoluteX="6dp"
-                android:onClick="brownPotted"/>
+                tools:layout_editor_absoluteX="6dp" />
 
             <ImageView
-                android:layout_column="1"
                 android:id="@+id/blueBall"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:layout_column="1"
+                android:onClick="bluePotted"
                 app:srcCompat="@drawable/blue"
-                tools:layout_editor_absoluteX="6dp"
-                android:onClick="bluePotted" />
+                tools:layout_editor_absoluteX="6dp" />
         </TableRow>
 
         <TableRow
@@ -141,22 +151,22 @@
             android:layout_height="80dp">
 
             <ImageView
-                android:layout_column="1"
                 android:id="@+id/pinkBall"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:layout_column="1"
+                android:onClick="pinkPotted"
                 app:srcCompat="@drawable/pink"
-                tools:layout_editor_absoluteX="6dp"
-                android:onClick="pinkPotted" />
+                tools:layout_editor_absoluteX="6dp" />
 
             <ImageView
-                android:layout_column="1"
                 android:id="@+id/blackBall"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:layout_column="1"
+                android:onClick="blackPotted"
                 app:srcCompat="@drawable/black"
-                tools:layout_editor_absoluteX="6dp"
-                android:onClick="blackPotted" />
+                tools:layout_editor_absoluteX="6dp" />
         </TableRow>
     </TableLayout>
 
@@ -173,15 +183,14 @@
         app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
     <FrameLayout
-        android:id="@+id/view"
+        android:id="@+id/playerFrame"
         android:layout_width="fill_parent"
         android:layout_height="75dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="56dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bUndo" >
+        app:layout_constraintTop_toBottomOf="@+id/bUndo"/>
 
-    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

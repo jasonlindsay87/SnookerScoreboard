@@ -15,8 +15,8 @@
         app:showAsAction="never">
     </item>
     <item
-        android:id="@+id/exit"
-        android:title="Exit"
+        android:id="@+id/about"
+        android:title="About"
         android:orderInCategory="101"
         app:showAsAction="never">
     </item>

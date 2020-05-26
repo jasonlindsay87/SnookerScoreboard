@@ -53,6 +53,19 @@ public class HomeActivity extends AppCompatActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
+        case R.id.add:
 
+            return(true);
+        case R.id.about:
+            //add the function to perform here
+            return(true);
+        case R.id.exit:
+            this.finishAffinity();
+            return(true);
+    }
+        return(super.onOptionsItemSelected(item));
+    }
 
 }

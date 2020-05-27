@@ -1,81 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#2E7D32">
+    android:layout_height="match_parent">
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background"/>
+        <LinearLayout
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/contentLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal">
+        </LinearLayout>
+    </FrameLayout>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/scoreboardToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:minHeight="?attr/actionBarSize"
         android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
 
-    <TextView
-        android:id="@+id/p1name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/TextView"
-        android:textColor="@color/colorWhite"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/playerFrame"
-        app:layout_constraintTop_toTopOf="@+id/playerFrame" />
-
-    <TextView
-        android:id="@+id/p1Score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="5dp"
-        android:text="@string/TextView"
-        android:textColor="@color/colorWhite"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/playerFrame"
-        app:layout_constraintStart_toStartOf="@+id/playerFrame"
-        app:layout_constraintTop_toBottomOf="@+id/p1name"
-        app:layout_constraintVertical_bias="0.035" />
-
-    <TextView
-        android:id="@+id/p2name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="36dp"
-        android:text="@string/TextView"
-        android:textColor="@color/colorWhite"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/playerFrame"
-        app:layout_constraintTop_toTopOf="@+id/playerFrame" />
-
-    <TextView
-        android:id="@+id/vs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="@string/vs"
-        android:textColor="@color/colorWhite"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toStartOf="@+id/playerFrame"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toEndOf="@+id/playerFrame"
-        app:layout_constraintTop_toTopOf="@+id/playerFrame" />
 
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="160dp"
         android:layout_height="320dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scoreboardToolbar">
+        app:layout_constraintTop_toBottomOf="@id/scoreboardToolbar">
 
 
         <TableRow
@@ -87,12 +56,12 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_column="1"
-                android:onClick="redPotted"
+
                 app:srcCompat="@drawable/red"
                 tools:layout_editor_absoluteX="6dp" />
 
             <ImageView
-                android:id="@+id/whiteBall"
+                android:id="@+id/foulBall"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_column="2"
@@ -103,7 +72,6 @@
         <TableRow
             android:layout_width="160dp"
             android:layout_height="80dp">
-
             <ImageView
                 android:id="@+id/yellowBall"
                 android:layout_width="80dp"
@@ -112,7 +80,6 @@
                 android:onClick="yellowPotted"
                 app:srcCompat="@drawable/yellow"
                 tools:layout_editor_absoluteX="6dp" />
-
             <ImageView
                 android:id="@+id/greenBall"
                 android:layout_width="80dp"
@@ -126,7 +93,6 @@
         <TableRow
             android:layout_width="160dp"
             android:layout_height="80dp">
-
             <ImageView
                 android:id="@+id/brownBall"
                 android:layout_width="80dp"
@@ -135,7 +101,6 @@
                 android:onClick="brownPotted"
                 app:srcCompat="@drawable/brown"
                 tools:layout_editor_absoluteX="6dp" />
-
             <ImageView
                 android:id="@+id/blueBall"
                 android:layout_width="80dp"
@@ -149,7 +114,6 @@
         <TableRow
             android:layout_width="160dp"
             android:layout_height="80dp">
-
             <ImageView
                 android:id="@+id/pinkBall"
                 android:layout_width="80dp"
@@ -171,26 +135,96 @@
     </TableLayout>
 
     <Button
-        android:id="@+id/bUndo"
+        android:id="@+id/undo1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:onClick="undoLastBall"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="16dp"
+        android:onClick="undoP1"
         android:text="@string/Undo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tableLayout" />
+
+    <TextView
+        android:id="@+id/p2name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        android:text="@string/TextView"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.746"
+        app:layout_constraintStart_toEndOf="@+id/vs"
+        app:layout_constraintTop_toBottomOf="@+id/p2Score" />
+
+    <TextView
+        android:id="@+id/vs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="40dp"
+        android:text="@string/vs"
+        android:textColor="@color/colorWhite"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/p2name"
+        app:layout_constraintStart_toEndOf="@+id/p1name"
+        app:layout_constraintTop_toBottomOf="@id/undo2" />
+
+    <TextView
+        android:id="@+id/p2Score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="135dp"
+        android:text="0"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/p1Score"
+        app:layout_constraintTop_toBottomOf="@id/undo2" />
+
+    <TextView
+        android:id="@+id/p1name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/TextView"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/vs"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/p2Score" />
 
-    <FrameLayout
-        android:id="@+id/playerFrame"
-        android:layout_width="fill_parent"
-        android:layout_height="75dp"
-        android:layout_marginTop="56dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+    <TextView
+        android:id="@+id/p1Score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="135dp"
+        android:layout_marginTop="10dp"
+        android:text="0"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bUndo"/>
+        app:layout_constraintTop_toBottomOf="@id/undo1" />
+
+    <Button
+        android:id="@+id/undo2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="65dp"
+        android:onClick="undoP2"
+        android:text="@string/Undo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@id/undo1"
+        app:layout_constraintTop_toBottomOf="@id/tableLayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class HomeActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +59,7 @@ public class HomeActivity extends AppCompatActivity {
         case R.id.add:
 
             return(true);
-        case R.id.about:
-            //add the function to perform here
-            return(true);
+
         case R.id.exit:
             this.finishAffinity();
             return(true);

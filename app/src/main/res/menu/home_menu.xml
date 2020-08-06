@@ -9,12 +9,6 @@
         app:showAsAction="never">
     </item>
     <item
-        android:id="@+id/help"
-        android:title="Help"
-        android:orderInCategory="101"
-        app:showAsAction="never">
-    </item>
-    <item
         android:id="@+id/about"
         android:title="About"
         android:orderInCategory="101"
@@ -26,6 +20,6 @@
         android:orderInCategory="101"
         app:showAsAction="never">
     </item>
-
-
 </menu>
+    <!-- TODO  Add OPTIONS Action/fragment -->
+    <!-- TODO  Add ABOUT info/fragment -->

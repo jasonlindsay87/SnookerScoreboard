@@ -22,7 +22,7 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(homeBar);
     }
 
-    public void sendMessage(View view) {
+    public void startGame(View view) {
         Intent Intent = new Intent(HomeActivity.this, ScoreboardActivity.class);
         EditText eP1Name = findViewById(R.id.p1name);
         EditText eP2Name = findViewById(R.id.p2name);
@@ -57,7 +57,6 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
         case R.id.add:
-
             return(true);
 
         case R.id.exit:

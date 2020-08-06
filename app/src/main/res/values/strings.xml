@@ -1,11 +1,22 @@
 <resources>
     <string name="app_name">Baize</string>
-    <string name="welcome_header">Snooker Masters</string>
-    <string name="name_player_one">Player One Name</string>
-    <string name="name_player_two">Player Two Name</string>
+    <string name="welcome_header">Snooker \nScoreboard</string>
+    <string name="name_player_one">Player One</string>
+    <string name="name_player_two">Player Two</string>
     <string name="start_match">Start Match</string>
-    <string name="vs">vs</string>
+    <string name="vs">vs.</string>
     <string name="Undo">Undo</string>
     <string name="TextView">TextView</string>
     <string name="Settings">Settings</string>
+    <string name="high_break">Highest break</string>
+    <string name="game_on">* Player One to break</string>
+    <string name="close">Close</string>
+    <string name="start">Start</string>
+    <string name="background">background</string>
+    <string name="ball">ball</string>
+    <string name="zero">0</string>
+    <string name="hyphen">-</string>
+    <string name="match_summary">Match Summary</string>
+    <string name="logo">Logo</string>
+    <string name="enter_player_names_to_start_your_game">Enter player names to start your game</string>
 </resources>

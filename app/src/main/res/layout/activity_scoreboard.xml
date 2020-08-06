@@ -1,29 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/background"/>
-        <LinearLayout
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:id="@+id/contentLayout"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="horizontal">
-        </LinearLayout>
-    </FrameLayout>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/scoreboardToolbar"
@@ -35,196 +14,257 @@
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/background"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <TableLayout
-        android:id="@+id/tableLayout"
-        android:layout_width="160dp"
-        android:layout_height="320dp"
-        android:layout_marginTop="10dp"
+        android:id="@+id/ballTable"
+        android:layout_width="243dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp"
+        android:layout_marginBottom="270dp"
+        android:background="@drawable/text_background"
+        android:stretchColumns="*"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/scoreboardToolbar">
 
-
         <TableRow
-            android:layout_width="160dp"
-            android:layout_height="80dp">
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1">
 
             <ImageView
                 android:id="@+id/redBall"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_column="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/ball"
+                android:scaleType="fitCenter"
+                android:src="@drawable/_red" />
 
-                app:srcCompat="@drawable/red"
-                tools:layout_editor_absoluteX="6dp" />
-
-            <ImageView
-                android:id="@+id/foulBall"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_column="2"
-                app:srcCompat="@drawable/white"
-                tools:layout_editor_absoluteX="6dp" />
+            <Spinner
+                android:id="@+id/spinFoul"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null" />
         </TableRow>
 
         <TableRow
-            android:layout_width="160dp"
-            android:layout_height="80dp">
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1">
+
             <ImageView
                 android:id="@+id/yellowBall"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_column="1"
-                android:onClick="yellowPotted"
-                app:srcCompat="@drawable/yellow"
-                tools:layout_editor_absoluteX="6dp" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/ball"
+                android:scaleType="fitCenter"
+                android:src="@drawable/_yellow" />
+
             <ImageView
                 android:id="@+id/greenBall"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_column="2"
-                android:onClick="greenPotted"
-                app:srcCompat="@drawable/green"
-                tools:layout_editor_absoluteX="6dp" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/ball"
+                android:scaleType="fitCenter"
+                android:src="@drawable/_green" />
         </TableRow>
 
         <TableRow
-            android:layout_width="160dp"
-            android:layout_height="80dp">
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1">
+
             <ImageView
                 android:id="@+id/brownBall"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_column="1"
-                android:onClick="brownPotted"
-                app:srcCompat="@drawable/brown"
-                tools:layout_editor_absoluteX="6dp" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/ball"
+                android:scaleType="fitCenter"
+                android:src="@drawable/_brown" />
+
             <ImageView
                 android:id="@+id/blueBall"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_column="1"
-                android:onClick="bluePotted"
-                app:srcCompat="@drawable/blue"
-                tools:layout_editor_absoluteX="6dp" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/ball"
+                android:scaleType="fitCenter"
+                android:src="@drawable/_blue" />
         </TableRow>
 
         <TableRow
-            android:layout_width="160dp"
-            android:layout_height="80dp">
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1">
+
             <ImageView
                 android:id="@+id/pinkBall"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_column="1"
-                android:onClick="pinkPotted"
-                app:srcCompat="@drawable/pink"
-                tools:layout_editor_absoluteX="6dp" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/ball"
+                android:scaleType="fitCenter"
+                android:src="@drawable/_pink" />
 
             <ImageView
                 android:id="@+id/blackBall"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_column="1"
-                android:onClick="blackPotted"
-                app:srcCompat="@drawable/black"
-                tools:layout_editor_absoluteX="6dp" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/ball"
+                android:scaleType="fitCenter"
+                android:src="@drawable/black" />
         </TableRow>
     </TableLayout>
 
-    <Button
-        android:id="@+id/undo1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="65dp"
-        android:layout_marginTop="16dp"
-        android:onClick="undoP1"
-        android:text="@string/Undo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tableLayout" />
 
-    <TextView
-        android:id="@+id/p2name"
-        android:layout_width="wrap_content"
+    <TableLayout
+        android:id="@+id/scores"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
-        android:text="@string/TextView"
-        android:textColor="@color/colorWhite"
-        android:textSize="18sp"
+        android:background="@drawable/text_background"
+        android:stretchColumns="*"
+        app:layout_constraintBottom_toTopOf="@id/names"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.746"
-        app:layout_constraintStart_toEndOf="@+id/vs"
-        app:layout_constraintTop_toBottomOf="@+id/p2Score" />
-
-    <TextView
-        android:id="@+id/vs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="40dp"
-        android:text="@string/vs"
-        android:textColor="@color/colorWhite"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toStartOf="@+id/p2name"
-        app:layout_constraintStart_toEndOf="@+id/p1name"
-        app:layout_constraintTop_toBottomOf="@id/undo2" />
-
-    <TextView
-        android:id="@+id/p2Score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="135dp"
-        android:text="0"
-        android:textColor="@color/colorWhite"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/p1Score"
-        app:layout_constraintTop_toBottomOf="@id/undo2" />
-
-    <TextView
-        android:id="@+id/p1name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/TextView"
-        android:textColor="@color/colorWhite"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/vs"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/p2Score" />
+        app:layout_constraintTop_toBottomOf="@id/ballTable">
 
-    <TextView
-        android:id="@+id/p1Score"
-        android:layout_width="wrap_content"
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:id="@+id/undoP1"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:contentDescription="@string/Undo"
+                android:gravity="center"
+                android:onClick="undoP1"
+                app:srcCompat="@android:drawable/ic_menu_revert" />
+
+            <TextView
+                android:id="@+id/p1Score"
+                android:layout_width="45dp"
+                android:background="@drawable/text_border"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="@string/zero"
+                android:textColor="@color/colorWhite"
+                android:textSize="40sp" />
+
+            <TextView
+                android:id="@+id/txtHyphen"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="@string/hyphen"
+                android:textColor="@color/colorWhite"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/p2Score"
+                android:layout_width="45dp"
+                android:background="@drawable/text_border"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="@string/zero"
+                android:textColor="@color/colorWhite"
+                android:textSize="40sp" />
+
+            <ImageView
+                android:id="@+id/undoP2"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:contentDescription="@string/Undo"
+                android:gravity="center"
+                android:onClick="undoP2"
+                app:srcCompat="@android:drawable/ic_menu_revert" />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:id="@+id/names"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="135dp"
-        android:layout_marginTop="10dp"
-        android:text="0"
-        android:textColor="@color/colorWhite"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/undo1" />
+        android:gravity="center_horizontal"
+        android:stretchColumns="*"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scores"
+        android:background="@drawable/text_border">
 
-    <Button
-        android:id="@+id/undo2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="65dp"
-        android:onClick="undoP2"
-        android:text="@string/Undo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@id/undo1"
-        app:layout_constraintTop_toBottomOf="@id/tableLayout" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/p1name"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:paddingRight="2dp"
+                android:text="@string/TextView"
+                android:textColor="@color/colorWhite"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/p1Frames"
+                android:layout_height="match_parent"
+                android:background="#1E88E5"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="@string/zero"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/vs"
+                android:layout_height="match_parent"
+                android:background="#1E88E5"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="@string/vs"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/p2Frames"
+                android:layout_height="match_parent"
+                android:background="#1E88E5"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="@string/zero"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/p2name"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:paddingLeft="2dp"
+                android:text="@string/TextView"
+                android:textColor="@color/colorWhite"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+        </TableRow>
+    </TableLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

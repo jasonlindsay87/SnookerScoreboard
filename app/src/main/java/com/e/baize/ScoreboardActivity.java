@@ -1,168 +1,257 @@
 package com.e.baize;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class ScoreboardActivity extends AppCompatActivity {
-    int selectedPlayer = 0;
-    List<Integer> p1ScoreHist = new ArrayList();
-    List<Integer> p2ScoreHist = new ArrayList();
+    final Player mPlayerOne = new Player();
+    final Player mPlayerTwo = new Player();
+    public int iFrameCount;
+    public Table mTable;
+    public StatsItems mMatchStats;
+    private ArrayList<FoulItems> mFoulList;
 
     @Override
- protected void onCreate(Bundle savedInstanceState) {
-     super.onCreate(savedInstanceState);
-     setContentView(R.layout.activity_scoreboard);
-     final TextView tP1Name = findViewById(R.id.p1name);
-     final TextView tP2Name = findViewById(R.id.p2name);
-     final ImageView imRed = findViewById(R.id.redBall);
-     final ImageView imFoul = findViewById(R.id.foulBall);
-     final ImageView imYellow = findViewById(R.id.yellowBall);
-     final ImageView imGreen = findViewById(R.id.greenBall);
-     final ImageView imBrown = findViewById(R.id.brownBall);
-     final ImageView imBlue = findViewById(R.id.blueBall);
-     final ImageView imPink = findViewById(R.id.pinkBall);
-     final ImageView imBlack = findViewById(R.id.blackBall);
-     Toolbar scoreboardBar = findViewById(R.id.scoreboardToolbar);
-     setSupportActionBar(scoreboardBar);
-     Bundle extras = getIntent().getExtras();
-     String sP1Name = extras.getString("sP1name");
-     String sP2Name = extras.getString("sP2name");
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_scoreboard);
+        Bundle extras = getIntent().getExtras();
+        assert extras != null;
+        if (extras.getString("sP1name") != null) {
+            mPlayerOne.Name = extras.getString("sP1name");
+        }
+        if (extras.getString("sP2name") != null) {
+            mPlayerTwo.Name = extras.getString("sP2name");
+        }
+        final TextView tP1Name = findViewById(R.id.p1name);
+        final TextView tP2Name = findViewById(R.id.p2name);
+        final ImageView imRed = findViewById(R.id.redBall);
+        final ImageView imYellow = findViewById(R.id.yellowBall);
+        final ImageView imGreen = findViewById(R.id.greenBall);
+        final ImageView imBrown = findViewById(R.id.brownBall);
+        final ImageView imBlue = findViewById(R.id.blueBall);
+        final ImageView imPink = findViewById(R.id.pinkBall);
+        final ImageView imBlack = findViewById(R.id.blackBall);
 
-     tP1Name.setText(sP1Name);
-     tP2Name.setText(sP2Name);
 
-     tP1Name.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             selectedPlayer = 1;
-             tP1Name.setBackgroundColor(getResources().getColor(R.color.colorWhite));
-             tP1Name.setTextColor(getResources().getColor(R.color.colorBlack));
-             tP2Name.setBackgroundColor(0x00000000);
-             tP2Name.setTextColor(getResources().getColor(R.color.colorWhite));
-         }
-     });
+        mMatchStats = new StatsItems();
 
-     tP2Name.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             selectedPlayer = 2;
-             tP2Name.setBackgroundColor(getResources().getColor(R.color.colorWhite));
-             tP2Name.setTextColor(getResources().getColor(R.color.colorBlack));
-             tP1Name.setBackgroundColor(0x00000000);
-             tP1Name.setTextColor(getResources().getColor(R.color.colorWhite));
-         }
-     });
+        Toolbar scoreboardBar = findViewById(R.id.scoreboardToolbar);
+        setSupportActionBar(scoreboardBar);
 
-     imFoul.setOnClickListener(new View.OnClickListener() {
+        tP1Name.setText(mPlayerOne.Name);
+        tP2Name.setText(mPlayerTwo.Name);
+        initFoulList();
+        iFrameCount = 1;
+
+        mTable = new Table();
+        mTable.setNextBreak(mPlayerTwo);
+        setPlayerOneActive();
+
+        final Spinner spinnerFouls = findViewById(R.id.spinFoul);
+        FoulAdapter mFoulAdapter = new FoulAdapter(this, mFoulList);
+        spinnerFouls.setAdapter(mFoulAdapter);
+        spinnerFouls.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                ballPotted(selectedPlayer, 0);
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                FoulItems clickedItem = (FoulItems) parent.getItemAtPosition(position);
+                int foulPoints = clickedItem.getFoulPoints();
+                if (foulPoints != 0) {
+                    if (mTable.getActivePlayer() == mPlayerOne) {
+                        mPlayerTwo.setScore(foulPoints);
+                        updateP2Score(null);
+                        Toast.makeText(getApplicationContext(), foulPoints + " foul points awarded to " + mPlayerTwo.Name, Toast.LENGTH_SHORT).show();
+                    }
+                    if (mTable.getActivePlayer() == mPlayerTwo) {
+                        mPlayerOne.setScore(foulPoints);
+                        updateP1Score(null);
+                        Toast.makeText(getApplicationContext(), foulPoints + " foul points awarded to " + mPlayerOne.Name, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                spinnerFouls.setSelection(0);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-     imRed.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             ballPotted(selectedPlayer, 1);
-         }
-     });
-     imYellow.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             ballPotted(selectedPlayer, 2);
-         }
-     });
-     imGreen.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             ballPotted(selectedPlayer, 3);
-         }
-     });
-     imBrown.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             ballPotted(selectedPlayer, 4);
-         }
-     });
-     imBlue.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             ballPotted(selectedPlayer, 5);
-         }
-     });
-     imPink.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             ballPotted(selectedPlayer, 6);
-         }
-     });
-     imBlack.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             ballPotted(selectedPlayer, 7);
-         }
-     });
- }
-    public void noPlayerSelected (View v) {
-        Vibrator vibe = (Vibrator) ScoreboardActivity.this.getSystemService(Context.VIBRATOR_SERVICE);
-        vibe.vibrate(200);
-        Toast.makeText(getApplicationContext(),"Select a player to update the score.", Toast.LENGTH_SHORT).show();
+
+        tP1Name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setPlayerOneActive();
+            }
+        });
+        tP2Name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setPlayerTwoActive();
+            }
+        });
+        imRed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ballPotted(1);
+            }
+        });
+        imYellow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ballPotted(2);
+            }
+        });
+        imGreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ballPotted(3);
+            }
+        });
+        imBrown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ballPotted(4);
+            }
+        });
+        imBlue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ballPotted(5);
+            }
+        });
+        imPink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ballPotted(6);
+            }
+        });
+        imBlack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ballPotted(7);
+            }
+        });
     }
 
-    public void ballPotted(int player, int score){
-        if (selectedPlayer == 0) {
-            noPlayerSelected (null);
-        }
-        else if (selectedPlayer == 1) {
-            p1ScoreHist.add(score);
+
+    public void setPlayerOneActive() {
+        final TextView tP1Name = findViewById(R.id.p1name);
+        final TextView tP2Name = findViewById(R.id.p2name);
+        mTable.setActivePlayer(mPlayerOne);
+        tP1Name.setBackgroundColor(getResources().getColor(R.color.colorYellow));
+        tP1Name.setTextColor(getResources().getColor(R.color.colorBlack));
+        tP2Name.setBackgroundColor(0x00000000);
+        tP2Name.setTextColor(getResources().getColor(R.color.colorWhite));
+    }
+
+    public void setPlayerTwoActive() {
+        final TextView tP1Name = findViewById(R.id.p1name);
+        final TextView tP2Name = findViewById(R.id.p2name);
+        mTable.setActivePlayer(mPlayerTwo);
+        tP2Name.setBackgroundColor(getResources().getColor(R.color.colorYellow));
+        tP2Name.setTextColor(getResources().getColor(R.color.colorBlack));
+        tP1Name.setBackgroundColor(0x00000000);
+        tP1Name.setTextColor(getResources().getColor(R.color.colorWhite));
+    }
+
+    private void initFoulList() {
+        mFoulList = new ArrayList<>();
+        mFoulList.add(new FoulItems(0, R.drawable.white));
+        mFoulList.add(new FoulItems(4, R.drawable.red));
+        mFoulList.add(new FoulItems(5, R.drawable.blue));
+        mFoulList.add(new FoulItems(6, R.drawable.pink));
+        mFoulList.add(new FoulItems(7, R.drawable.black));
+        // TODO: 17/06/2020 create individual white FOUL ball drawables
+    }
+
+    public void ballPotted(int score) {
+        if (mTable.getActivePlayer() == mPlayerOne) {
+            mPlayerOne.setScore(score);
             updateP1Score(null);
-        }
-        else if (selectedPlayer == 2) {
-            p2ScoreHist.add(score);
+        } else if (mTable.getActivePlayer() == mPlayerTwo) {
+            mPlayerTwo.setScore(score);
             updateP2Score(null);
         }
     }
 
-    public void updateP1Score(View v){
-        int iP1TotalScore = 0;
-        for (int i : p1ScoreHist){
-            iP1TotalScore += i;
-        }
+    public void updateP1Score(View v) {
         TextView tTotalP1Score = findViewById(R.id.p1Score);
-        tTotalP1Score.setText(Integer.toString(iP1TotalScore));
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.score_anim);
+        anim.reset();
+        tTotalP1Score.setText(Integer.toString(mPlayerOne.getScore()));
+        tTotalP1Score.clearAnimation();
+        tTotalP1Score.startAnimation(anim);
     }
-    public void updateP2Score(View v){
-        int iP2TotalScore = 0;
-        for (int i : p2ScoreHist){
-            iP2TotalScore += i;
-        }
-        TextView tTotalP1Score = findViewById(R.id.p2Score);
-        tTotalP1Score.setText(Integer.toString(iP2TotalScore));
+
+    public void updateP2Score(View v) {
+        TextView tTotalP2Score = findViewById(R.id.p2Score);
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.score_anim);
+        anim.reset();
+        tTotalP2Score.setText(Integer.toString(mPlayerTwo.getScore()));
+        tTotalP2Score.clearAnimation();
+        tTotalP2Score.startAnimation(anim);
     }
 
     public void undoP1(View v) {
-        if (p1ScoreHist.size() > 0) {
-            p1ScoreHist.remove(p1ScoreHist.size() - 1);
-        }
+        mPlayerOne.undoScore();
+        mPlayerOne.getScore();
         updateP1Score(null);
     }
 
     public void undoP2(View v) {
-        if (p2ScoreHist.size() > 0) {
-            p2ScoreHist.remove(p2ScoreHist.size() - 1);
-        }
+        mPlayerTwo.undoScore();
+        mPlayerTwo.getScore();
         updateP2Score(null);
+    }
+
+    public void updateFrames() {
+        TextView tP1Frames = findViewById(R.id.p1Frames);
+        TextView tP2Frames = findViewById(R.id.p2Frames);
+        if (mPlayerOne.getScore() > mPlayerTwo.getScore()) {
+            mPlayerOne.frameWin();
+        } else {
+            mPlayerTwo.frameWin();
+        }
+
+        if (mTable.getNextBreak() == mPlayerOne) {
+            setPlayerOneActive();
+            mTable.setNextBreak(mPlayerTwo);
+        } else if (mTable.getNextBreak() == mPlayerTwo) {
+            setPlayerTwoActive();
+            mTable.setNextBreak(mPlayerOne);
+        }
+        mMatchStats.saveFrames(mPlayerOne, mPlayerTwo);
+        mPlayerOne.clearScore();
+        mPlayerTwo.clearScore();
+        updateP1Score(null);
+        updateP2Score(null);
+        iFrameCount++;
+        Toast.makeText(getApplicationContext(), "Frame " + iFrameCount + ". " + mTable.getActivePlayer().Name + " to break", Toast.LENGTH_LONG).show();
+        tP1Frames.setText(Integer.toString(mPlayerOne.getFrameCount()));
+        tP2Frames.setText(Integer.toString(mPlayerTwo.getFrameCount()));
     }
 
     @Override
@@ -173,15 +262,103 @@ public class ScoreboardActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
-        case R.id.add:
-            return(true);
-
-        case R.id.exit:
-            this.finishAffinity();
-            return(true);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.endFrame:
+                newFrame(null);
+                break;
+            case R.id.rules:
+                showRules();
+                break;
+            case R.id.stats:
+                showStats();
+                break;
+            case R.id.endMatch:
+                endMatch();
+                break;
+        }
+        return (super.onOptionsItemSelected(item));
     }
-        return(super.onOptionsItemSelected(item));
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
+    public void newFrame(View view) {
+        if (mPlayerOne.getScore() != mPlayerTwo.getScore()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
+            builder.setMessage("Start a new frame?")
+                    .setTitle("End Frame")
+                    .setCancelable(false)
+                    .setPositiveButton
+                            (
+                                    "Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            updateFrames();
+                                        }
+                                    }
+                            )
+                    .setNegativeButton
+                            ("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    }
+                            );
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else {
+            Vibrator vibe = (Vibrator) ScoreboardActivity.this.getSystemService(Context.VIBRATOR_SERVICE);
+            vibe.vibrate(200);
+            Toast.makeText(getApplicationContext(), "Scores are level! Re-spot the black?", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    protected void showRules() {
+        Intent rulesIntent = new Intent(ScoreboardActivity.this, RulesActivity.class);
+        startActivity(rulesIntent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        endMatch();
+    }
+
+    public void endMatch() {
+        AlertDialog.Builder altBuilder = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
+        altBuilder.setMessage("Are you sure you want to go back? Current match data will be lost.")
+                .setTitle("End Match")
+                .setCancelable(false)
+                .setPositiveButton
+                        (
+                                "Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent backIntent = new Intent(ScoreboardActivity.this, HomeActivity.class);
+                                        startActivity(backIntent);
+                                    }
+                                }
+                        )
+                .setNegativeButton
+                        ("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }
+                        );
+        AlertDialog dialog = altBuilder.create();
+        dialog.show();
+    }
+
+    public void showStats() {
+        Intent statsIntent = new Intent(ScoreboardActivity.this, StatsActivity.class);
+        statsIntent.putExtra("mMatchStats", mMatchStats);
+        statsIntent.putExtra("mPlayerOne", mPlayerOne);
+        statsIntent.putExtra("mPlayerTwo", mPlayerTwo);
+        statsIntent.putExtra("iFrameCount", iFrameCount);
+        startActivity(statsIntent);
     }
 }

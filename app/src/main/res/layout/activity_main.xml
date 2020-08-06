@@ -7,19 +7,13 @@
     android:background="@color/colorBlack"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="255dp"
-        android:layout_height="116dp"
-        android:fontFamily="sans-serif"
-        android:text="@string/app_name"
-        android:textAlignment="center"
-        android:textColor="@color/colorWhite"
-        android:textSize="100sp"
-        android:textStyle="bold|italic"
-        android:typeface="sans"
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="279dp"
+        android:layout_height="143dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

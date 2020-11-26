@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class HomeActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +22,7 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(homeBar);
     }
 
-    public void sendMessage(View view) {
+    public void startGame(View view) {
         Intent Intent = new Intent(HomeActivity.this, ScoreboardActivity.class);
         EditText eP1Name = findViewById(R.id.p1name);
         EditText eP2Name = findViewById(R.id.p2name);
@@ -53,6 +54,16 @@ public class HomeActivity extends AppCompatActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
+        case R.id.add:
+            return(true);
 
+        case R.id.exit:
+            this.finishAffinity();
+            return(true);
+    }
+        return(super.onOptionsItemSelected(item));
+    }
 
 }

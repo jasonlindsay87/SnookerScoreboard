@@ -31,12 +31,12 @@ public class StatsItems extends ScoreboardActivity implements Serializable {
         p2Scores.add(scoreList);
     }
 
-    public String getP1Frames(Player player){
+    public String getP1FramesWon(Player player){
         String sFrameCount = Integer.toString(player.getFrameCount());
         return sFrameCount;
     }
 
-    public String getP2Frames(Player player){
+    public String getP2FramesWon(Player player){
         String sFrameCount = Integer.toString(player.getFrameCount());
         return sFrameCount;
     }

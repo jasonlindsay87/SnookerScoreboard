@@ -4,20 +4,20 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
 
-    android:orientation="vertical"
-    android:gravity="center_vertical" >
+    android:gravity="center_vertical"
+    android:orientation="vertical">
 
 
     <TextView
         android:id="@+id/popupMessage"
-        android:textColor="@color/colorWhite"
-        android:padding="35dp"
-        android:textAlignment="center"
-        android:background="@drawable/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
         android:layout_gravity="center_horizontal"
-        android:text="Message" />
+        android:background="@drawable/button"
+        android:padding="35dp"
+        android:text="Message"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp" />
 
 </LinearLayout>

@@ -6,89 +6,145 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
-    <TextView
-        android:id="@+id/banner"
-        android:layout_width="fill_parent"
-        android:layout_height="100dp"
-        android:layout_marginTop="68dp"
-        android:fontFamily="sans-serif"
-        android:text="@string/app_name"
-        android:textAlignment="center"
-        android:textColor="@color/colorBlack"
-        android:textSize="75sp"
-        android:textStyle="bold|italic"
-        android:typeface="sans"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/welcomeMessage"
-        android:layout_width="fill_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="@string/welcome_header"
-        android:textAlignment="center"
-        android:textColor="@color/colorBlack"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/banner" />
-
-    <EditText
-        android:id="@+id/p1name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="124dp"
-        android:backgroundTint="@android:color/holo_green_light"
-        android:ems="10"
-        android:hint="@string/name_player_one"
-        android:inputType="textPersonName"
-        android:textAlignment="center"
-        android:textCursorDrawable="@null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcomeMessage" />
-
-    <EditText
-        android:id="@+id/p2name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:backgroundTint="@android:color/holo_green_light"
-        android:ems="10"
-        android:hint="@string/name_player_two"
-        android:inputType="textPersonName"
-        android:textAlignment="center"
-        android:textCursorDrawable="@null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/p1name" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:onClick="sendMessage"
-        android:text="@string/start_match"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/p2name" />
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/homeToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:minHeight="?attr/actionBarSize"
         android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:fontFamily="sans-serif"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/background"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <LinearLayout
+        android:id="@+id/bannerLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeToolbar"
+        android:gravity="center"
+        android:background="@color/cardview_shadow_start_color">
+
+        <TextView
+            android:id="@+id/banner"
+            android:layout_width="261dp"
+            android:layout_height="126dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/banner"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bannerLayout">
+
+
+        <EditText
+            android:id="@+id/p1name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:autofillHints=""
+            android:background="@drawable/text_border"
+            android:ems="12"
+            android:fontFamily="@font/roboto_medium"
+            android:hint="@string/name_player_one"
+            android:inputType="textPersonName"
+            android:maxLength="10"
+            android:padding="8dp"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@android:color/darker_gray"
+            android:textCursorDrawable="@null"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/txtVs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="@string/vs"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/p1name" />
+
+        <EditText
+            android:id="@+id/p2name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:autofillHints=""
+            android:background="@drawable/text_border"
+            android:ems="12"
+            android:fontFamily="@font/roboto_medium"
+            android:hint="@string/name_player_two"
+            android:inputType="textPersonName"
+            android:maxLength="10"
+            android:padding="8dp"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@android:color/darker_gray"
+            android:textCursorDrawable="@null"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/txtGameOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/game_on"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            android:textStyle="italic" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/button"
+            android:fontFamily="@font/roboto_medium"
+            android:onClick="startGame"
+            android:text="@string/start"
+            android:textColor="@color/colorWhite" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="90dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="@string/logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/logo_white" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

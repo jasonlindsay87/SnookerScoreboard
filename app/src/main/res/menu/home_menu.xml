@@ -10,9 +10,16 @@
     </item>
     <item
         android:id="@+id/about"
-        android:title="Help"
+        android:title="About"
         android:orderInCategory="101"
         app:showAsAction="never">
-
+    </item>
+    <item
+        android:id="@+id/exit"
+        android:title="Exit"
+        android:orderInCategory="101"
+        app:showAsAction="never">
     </item>
 </menu>
+    <!-- TODO  Add OPTIONS Action/fragment -->
+    <!-- TODO  Add ABOUT info/fragment -->

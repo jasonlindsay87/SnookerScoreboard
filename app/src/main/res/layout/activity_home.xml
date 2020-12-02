@@ -52,12 +52,28 @@
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bannerLayout">
+        app:layout_constraintTop_toBottomOf="@+id/bannerLayout"
+        app:layout_constraintVertical_bias="0.615">
 
+        <TextView
+            android:id="@+id/enterPlayerNames"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/text_background"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/enter_player_names_to_start_your_game"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/p1name"
@@ -145,6 +161,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/logo_white" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

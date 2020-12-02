@@ -39,92 +39,81 @@
         app:layout_constraintTop_toBottomOf="@id/scoreboardToolbar">
 
         <TableRow
-            android:layout_height="0dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1">
 
             <ImageView
                 android:id="@+id/redBall"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="82dp"
+                android:layout_height="82dp"
                 android:contentDescription="@string/ball"
                 android:scaleType="fitCenter"
-                android:src="@drawable/_red" />
+                android:src="@drawable/red_ball" />
 
             <Spinner
                 android:id="@+id/spinFoul"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="82dp"
+                android:layout_height="82dp"
                 android:background="@null" />
         </TableRow>
 
         <TableRow
             android:layout_height="0dp"
-            android:layout_marginTop="5dp"
             android:layout_weight="1">
-
             <ImageView
                 android:id="@+id/yellowBall"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="82dp"
+                android:layout_height="82dp"
                 android:contentDescription="@string/ball"
                 android:scaleType="fitCenter"
-                android:src="@drawable/_yellow" />
-
+                android:src="@drawable/yellow_ball" />
             <ImageView
                 android:id="@+id/greenBall"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="82dp"
+                android:layout_height="82dp"
                 android:contentDescription="@string/ball"
                 android:scaleType="fitCenter"
-                android:src="@drawable/_green" />
+                android:src="@drawable/green_ball" />
         </TableRow>
 
         <TableRow
             android:layout_height="0dp"
-            android:layout_marginTop="5dp"
             android:layout_weight="1">
-
             <ImageView
                 android:id="@+id/brownBall"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="82dp"
+                android:layout_height="82dp"
                 android:contentDescription="@string/ball"
                 android:scaleType="fitCenter"
-                android:src="@drawable/_brown" />
-
+                android:src="@drawable/brown_ball" />
             <ImageView
                 android:id="@+id/blueBall"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="82dp"
+                android:layout_height="82dp"
                 android:contentDescription="@string/ball"
                 android:scaleType="fitCenter"
-                android:src="@drawable/_blue" />
+                android:src="@drawable/blue_ball" />
         </TableRow>
 
         <TableRow
             android:layout_height="0dp"
-            android:layout_marginTop="5dp"
             android:layout_weight="1">
-
             <ImageView
                 android:id="@+id/pinkBall"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="82dp"
+                android:layout_height="82dp"
                 android:contentDescription="@string/ball"
                 android:scaleType="fitCenter"
-                android:src="@drawable/_pink" />
-
+                android:src="@drawable/pink_ball" />
             <ImageView
                 android:id="@+id/blackBall"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="82dp"
+                android:layout_height="82dp"
                 android:contentDescription="@string/ball"
                 android:scaleType="fitCenter"
-                android:src="@drawable/black" />
+                android:src="@drawable/black_ball" />
         </TableRow>
     </TableLayout>
-
 
     <TableLayout
         android:id="@+id/scores"
@@ -205,10 +194,11 @@
         android:background="@drawable/text_border">
 
         <TableRow
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <TextView
+                android:minHeight="60dp"
                 android:id="@+id/p1name"
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
@@ -223,7 +213,7 @@
             <TextView
                 android:id="@+id/p1Frames"
                 android:layout_height="match_parent"
-                android:background="#1E88E5"
+                android:background="@drawable/text_border_top_bottom"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:text="@string/zero"
@@ -234,7 +224,7 @@
             <TextView
                 android:id="@+id/vs"
                 android:layout_height="match_parent"
-                android:background="#1E88E5"
+                android:background="@drawable/text_border_top_bottom"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:text="@string/vs"
@@ -245,7 +235,7 @@
             <TextView
                 android:id="@+id/p2Frames"
                 android:layout_height="match_parent"
-                android:background="#1E88E5"
+                android:background="@drawable/text_border_top_bottom"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
                 android:text="@string/zero"
@@ -254,6 +244,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:minHeight="60dp"
                 android:id="@+id/p2name"
                 android:layout_width="120dp"
                 android:layout_height="match_parent"

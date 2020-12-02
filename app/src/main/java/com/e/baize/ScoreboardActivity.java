@@ -11,7 +11,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,7 +22,10 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,7 +62,6 @@ public class ScoreboardActivity extends AppCompatActivity {
         final ImageView imPink = findViewById(R.id.pinkBall);
         final ImageView imBlack = findViewById(R.id.blackBall);
 
-
         mMatchStats = new StatsItems();
 
         Toolbar scoreboardBar = findViewById(R.id.scoreboardToolbar);
@@ -83,18 +88,19 @@ public class ScoreboardActivity extends AppCompatActivity {
                     if (mTable.getActivePlayer() == mPlayerOne) {
                         mPlayerTwo.setScore(foulPoints);
                         updateP2Score(null);
-                        Toast.makeText(getApplicationContext(), foulPoints + " foul points awarded to " + mPlayerTwo.Name, Toast.LENGTH_SHORT).show();
+                        displayPopup(foulPoints +" foul points awarded to\n" + mPlayerTwo.Name);
+                        //Toast.makeText(getApplicationContext(), foulPoints + " foul points awarded to " + mPlayerTwo.Name, Toast.LENGTH_SHORT).show();
                     }
                     if (mTable.getActivePlayer() == mPlayerTwo) {
                         mPlayerOne.setScore(foulPoints);
                         updateP1Score(null);
-                        Toast.makeText(getApplicationContext(), foulPoints + " foul points awarded to " + mPlayerOne.Name, Toast.LENGTH_SHORT).show();
+                        displayPopup(foulPoints +" foul points awarded to\n " + mPlayerOne.Name);
+                        //Toast.makeText(getApplicationContext(), foulPoints + " foul points awarded to " + mPlayerOne.Name, Toast.LENGTH_SHORT).show();
                     }
                 }
                 spinnerFouls.setSelection(0);
 
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -115,76 +121,89 @@ public class ScoreboardActivity extends AppCompatActivity {
         imRed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                animateBall(v);
                 ballPotted(1);
             }
         });
         imYellow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                animateBall(v);
                 ballPotted(2);
             }
         });
         imGreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                animateBall(v);
                 ballPotted(3);
             }
         });
         imBrown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                animateBall(v);
                 ballPotted(4);
             }
         });
         imBlue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                animateBall(v);
                 ballPotted(5);
             }
         });
         imPink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                animateBall(v);
                 ballPotted(6);
             }
         });
         imBlack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                animateBall(v);
                 ballPotted(7);
             }
         });
     }
 
+    public void animateBall(View v) {
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.ball_anim);
+        anim.reset();
+        v.clearAnimation();
+        v.startAnimation(anim);
+    }
 
     public void setPlayerOneActive() {
         final TextView tP1Name = findViewById(R.id.p1name);
         final TextView tP2Name = findViewById(R.id.p2name);
         mTable.setActivePlayer(mPlayerOne);
-        tP1Name.setBackgroundColor(getResources().getColor(R.color.colorYellow));
+        tP1Name.setBackground(getResources().getDrawable(R.drawable.p1selected));
         tP1Name.setTextColor(getResources().getColor(R.color.colorBlack));
         tP2Name.setBackgroundColor(0x00000000);
-        tP2Name.setTextColor(getResources().getColor(R.color.colorWhite));
+        tP2Name.setTextColor(getResources().getColor(R.color.colorDark));
     }
 
     public void setPlayerTwoActive() {
         final TextView tP1Name = findViewById(R.id.p1name);
         final TextView tP2Name = findViewById(R.id.p2name);
         mTable.setActivePlayer(mPlayerTwo);
-        tP2Name.setBackgroundColor(getResources().getColor(R.color.colorYellow));
+        tP2Name.setBackground(getResources().getDrawable(R.drawable.p2selected));
         tP2Name.setTextColor(getResources().getColor(R.color.colorBlack));
         tP1Name.setBackgroundColor(0x00000000);
-        tP1Name.setTextColor(getResources().getColor(R.color.colorWhite));
+        tP1Name.setTextColor(getResources().getColor(R.color.colorDark));
     }
 
     private void initFoulList() {
         mFoulList = new ArrayList<>();
-        mFoulList.add(new FoulItems(0, R.drawable.white));
-        mFoulList.add(new FoulItems(4, R.drawable.red));
-        mFoulList.add(new FoulItems(5, R.drawable.blue));
-        mFoulList.add(new FoulItems(6, R.drawable.pink));
-        mFoulList.add(new FoulItems(7, R.drawable.black));
-        // TODO: 17/06/2020 create individual white FOUL ball drawables
+        mFoulList.add(new FoulItems(0, R.drawable._foul));
+        mFoulList.add(new FoulItems(4, R.drawable._foul4));
+        mFoulList.add(new FoulItems(5, R.drawable._foul5));
+        mFoulList.add(new FoulItems(6, R.drawable._foul6));
+        mFoulList.add(new FoulItems(7, R.drawable._foul7));
+        // TODO: 17/06/2020 create individual foul FOUL ball drawables
     }
 
     public void ballPotted(int score) {
@@ -228,12 +247,15 @@ public class ScoreboardActivity extends AppCompatActivity {
     }
 
     public void updateFrames() {
+        String frameWinner = "";
         TextView tP1Frames = findViewById(R.id.p1Frames);
         TextView tP2Frames = findViewById(R.id.p2Frames);
         if (mPlayerOne.getScore() > mPlayerTwo.getScore()) {
             mPlayerOne.frameWin();
+            frameWinner = mPlayerOne.Name;
         } else {
             mPlayerTwo.frameWin();
+            frameWinner = mPlayerTwo.Name;
         }
 
         if (mTable.getNextBreak() == mPlayerOne) {
@@ -249,7 +271,8 @@ public class ScoreboardActivity extends AppCompatActivity {
         updateP1Score(null);
         updateP2Score(null);
         iFrameCount++;
-        Toast.makeText(getApplicationContext(), "Frame " + iFrameCount + ". " + mTable.getActivePlayer().Name + " to break", Toast.LENGTH_LONG).show();
+        displayPopup(frameWinner + " wins the frame!\n\n- Frame " + iFrameCount + " -\n" + mTable.getActivePlayer().Name+ " to break");
+        //Toast.makeText(getApplicationContext(), "Frame " + iFrameCount + ". " + mTable.getActivePlayer().Name + " to break", Toast.LENGTH_LONG).show();
         tP1Frames.setText(Integer.toString(mPlayerOne.getFrameCount()));
         tP2Frames.setText(Integer.toString(mPlayerTwo.getFrameCount()));
     }
@@ -358,7 +381,25 @@ public class ScoreboardActivity extends AppCompatActivity {
         statsIntent.putExtra("mMatchStats", mMatchStats);
         statsIntent.putExtra("mPlayerOne", mPlayerOne);
         statsIntent.putExtra("mPlayerTwo", mPlayerTwo);
-        statsIntent.putExtra("iFrameCount", iFrameCount);
         startActivity(statsIntent);
+    }
+
+    public void displayPopup(String message) {
+
+        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext()
+                .getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = layoutInflater.inflate(R.layout.popup, null);
+        final PopupWindow popupWindow = new PopupWindow(popupView,
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        TextView tvpopUP = (TextView) popupView.findViewById(R.id.popupMessage);
+        tvpopUP.setText(message);
+        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+
+        new Handler().postDelayed(new Runnable(){
+            public void run() {
+                popupWindow.dismiss();
+            }
+        }, 5000);
     }
 }

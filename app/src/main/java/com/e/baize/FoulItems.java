@@ -1,16 +1,16 @@
 package com.e.baize;
 
 public class FoulItems {
-    private int mFoulPoints;
+    private float mFoulPoints;
     private int mFoulImage;
 
-    public FoulItems(int foulPoints, Integer foulImage){
+    public FoulItems(float foulPoints, Integer foulImage){
         mFoulPoints = foulPoints;
         if (foulImage != null) {
             mFoulImage = foulImage;
         }
     }
-    public int getFoulPoints() {
+    public float getFoulPoints() {
         return mFoulPoints;
     }
     public int getFoulImage() {

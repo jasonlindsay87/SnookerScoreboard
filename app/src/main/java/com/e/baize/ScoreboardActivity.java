@@ -83,18 +83,20 @@ public class ScoreboardActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 FoulItems clickedItem = (FoulItems) parent.getItemAtPosition(position);
-                int foulPoints = clickedItem.getFoulPoints();
+                float foulPoints = clickedItem.getFoulPoints();
                 if (foulPoints != 0) {
                     if (mTable.getActivePlayer() == mPlayerOne) {
                         mPlayerTwo.setScore(foulPoints);
+                        foulPoints = Math.round(foulPoints);
                         updateP2Score(null);
-                        displayPopup(foulPoints +" foul points awarded to\n" + mPlayerTwo.Name);
+                        displayPopup(String.format("%.0f",foulPoints) +" foul points awarded to\n" + mPlayerTwo.Name);
                         //Toast.makeText(getApplicationContext(), foulPoints + " foul points awarded to " + mPlayerTwo.Name, Toast.LENGTH_SHORT).show();
                     }
                     if (mTable.getActivePlayer() == mPlayerTwo) {
                         mPlayerOne.setScore(foulPoints);
+                        foulPoints = Math.round(foulPoints);
                         updateP1Score(null);
-                        displayPopup(foulPoints +" foul points awarded to\n " + mPlayerOne.Name);
+                        displayPopup(String.format("%.0f",foulPoints) +" foul points awarded to\n " + mPlayerOne.Name);
                         //Toast.makeText(getApplicationContext(), foulPoints + " foul points awarded to " + mPlayerOne.Name, Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -199,11 +201,10 @@ public class ScoreboardActivity extends AppCompatActivity {
     private void initFoulList() {
         mFoulList = new ArrayList<>();
         mFoulList.add(new FoulItems(0, R.drawable._foul));
-        mFoulList.add(new FoulItems(4, R.drawable._foul4));
-        mFoulList.add(new FoulItems(5, R.drawable._foul5));
-        mFoulList.add(new FoulItems(6, R.drawable._foul6));
-        mFoulList.add(new FoulItems(7, R.drawable._foul7));
-        // TODO: 17/06/2020 create individual foul FOUL ball drawables
+        mFoulList.add(new FoulItems((float) 4.0001, R.drawable._foul4));
+        mFoulList.add(new FoulItems((float)5.0001, R.drawable._foul5));
+        mFoulList.add(new FoulItems((float)6.0001, R.drawable._foul6));
+        mFoulList.add(new FoulItems((float)7.0001, R.drawable._foul7));
     }
 
     public void ballPotted(int score) {

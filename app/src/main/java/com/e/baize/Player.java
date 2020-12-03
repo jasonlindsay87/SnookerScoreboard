@@ -8,20 +8,20 @@ import java.util.List;
 
 public class Player extends AppCompatActivity implements Serializable  {
     public String Name;
-    public List<Float> ScoreHistory = new ArrayList<>();
+    public List<Double> ScoreHistory = new ArrayList<>();
     private int FrameCount;
 
-    public void setScore(float score) {
+    public void setScore(double score) {
         ScoreHistory.add(score);
     }
 
-    public List<Float> getScoreHistory() {
+    public List<Double> getScoreHistory() {
         return ScoreHistory;
     }
 
     public int getScore() {
         int score = 0;
-        for (Float i : ScoreHistory) {
+        for (Double i : ScoreHistory) {
             score += i;
             }
         return score;
@@ -48,7 +48,7 @@ public class Player extends AppCompatActivity implements Serializable  {
     public List<String> getFrameScores() {
         List<String> scoreList = new ArrayList<>();
         for (int i = 0; i < ScoreHistory.size(); i++) {
-            String sScore = (Float.toString(ScoreHistory.get(i)));
+            String sScore = (Double.toString(ScoreHistory.get(i)));
             scoreList.add(sScore);
         }
         return scoreList;

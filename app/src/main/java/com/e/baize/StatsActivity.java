@@ -20,13 +20,17 @@ public class StatsActivity extends AppCompatActivity {
     public TableLayout frameTable;
     public TableLayout p1ScoreTable;
     public TableLayout p2ScoreTable;
-    public Player mPlayerOne;
-    public Player mPlayerTwo;
     public int iFramesPlayed = 0;
+
+    public Player mPlayerOne;
     public int p1TotalPoints = 0;
     public int p1NumberOfFoulsAwarded = 0;
-    public float p1FoulPointsAwarded = 0;
+    public double p1FoulPointsAwarded = 0;
+
+    public Player mPlayerTwo;
     public int p2TotalPoints = 0;
+    public int p2NumberOfFoulsAwarded = 0;
+    public double p2FoulPointsAwarded = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +45,11 @@ public class StatsActivity extends AppCompatActivity {
         addPlayerNames();
         addCurrentMatchScore();
         addTotalPointsRow();
-        addFoulsAwardedRow();
         addTotalBallsPottedRow();
-        addAveragePotRow();
+        addFoulsAwardedRow();
         addPreviousFrames();
         addCurrentFrame();
         updateTotalPoints();
-        updateAveragePots();
         updateTotalBallsPotted();
         updateFoulPoints();
     }
@@ -114,9 +116,9 @@ public class StatsActivity extends AppCompatActivity {
             TextView tvP2Total = new TextView(this);
 
             for (int j = iFramesPlayed; j < iFramesPlayed + 1; j++) {
-                int frameTotal = 0;
+                double frameTotal = 0;
                 for (int k = 0; k < mStatsItems.p1Scores.get(iFramesPlayed).size(); k++) {
-                    float score = Float.parseFloat(mStatsItems.p1Scores.get(iFramesPlayed).get(k));
+                    double score = Double.parseDouble(mStatsItems.p1Scores.get(iFramesPlayed).get(k));
                     if (score % 1 != 0) {
                         p1NumberOfFoulsAwarded ++;
                         p1FoulPointsAwarded += score;
@@ -129,7 +131,7 @@ public class StatsActivity extends AppCompatActivity {
                     p1ScoreTable.addView(rScores);
                     frameTotal += score;
                 }
-                String sTotal = "(" + Integer.toString(frameTotal) + ")";
+                String sTotal = "(" + Math.round(frameTotal) + ")";
                 p1TotalPoints += frameTotal;
                 tvP1Total.setText(sTotal);
                 tvP1Total.setTextColor(getResources().getColor(R.color.colorWhite));
@@ -138,25 +140,30 @@ public class StatsActivity extends AppCompatActivity {
             }
 
             for (int j = iFramesPlayed; j < iFramesPlayed + 1; j++) {
-                int frameTotal = 0;
+                double frameTotal = 0;
                 for (int k = 0; k < mStatsItems.p2Scores.get(iFramesPlayed).size(); k++) {
+                    double score = Double.parseDouble(mStatsItems.p2Scores.get(iFramesPlayed).get(k));
+                    if (score % 1 != 0) {
+                        p2NumberOfFoulsAwarded ++;
+                        p2FoulPointsAwarded += score;
+                    }
                     TableRow rScores = new TableRow(this);
                     rScores.setGravity(Gravity.CENTER);
                     ImageView imScore = new ImageView(this);
-                    imScore.setImageBitmap(getBallColour(Integer.parseInt(mStatsItems.p2Scores.get(iFramesPlayed).get(k))));
+                    imScore.setImageBitmap(getBallColour(score));
                     rScores.addView(imScore);
                     p2ScoreTable.addView(rScores);
-                    frameTotal += Integer.parseInt(mStatsItems.p2Scores.get(iFramesPlayed).get(k));
+                    frameTotal += score;
                 }
 
-                String sTotal = "(" + Integer.toString(frameTotal) + ")";
+                String sTotal = "(" + Math.round(frameTotal) + ")";
                 p2TotalPoints += frameTotal;
                 tvP2Total.setText(sTotal);
                 tvP2Total.setTextColor(getResources().getColor(R.color.colorWhite));
                 tvP2Total.setTypeface(null, Typeface.BOLD);
                 tvP2Total.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             }
-            if (Integer.parseInt(tvP1Total.getText().toString().replaceAll("\\D+","")) > Integer.parseInt(tvP2Total.getText().toString().replaceAll("\\D+",""))) {
+            if (Double.parseDouble(tvP1Total.getText().toString().replaceAll("\\D+","")) > Double.parseDouble(tvP2Total.getText().toString().replaceAll("\\D+",""))) {
                 tvP1Total.setTextColor(getResources().getColor(R.color.colorYellow));
             }
             else{
@@ -190,10 +197,15 @@ public class StatsActivity extends AppCompatActivity {
         int p2FrameTotal = 0;
 
         for(int i = 0; i < mPlayerOne.getScoreHistory().size(); i++) {
+            double score = mPlayerOne.getScoreHistory().get(i);
+            if (score % 1 != 0) {
+                p1NumberOfFoulsAwarded ++;
+                p1FoulPointsAwarded += score;
+            }
             TableRow rScores = new TableRow(this);
             rScores.setGravity(Gravity.CENTER);
             ImageView imScore = new ImageView(this);
-            imScore.setImageBitmap(getBallColour(mPlayerOne.getScoreHistory().get(i)));
+            imScore.setImageBitmap(getBallColour(score));
             rScores.addView(imScore);
             p1ScoreTable.addView(rScores);
             p1FrameTotal += mPlayerOne.getScoreHistory().get(i);
@@ -205,10 +217,15 @@ public class StatsActivity extends AppCompatActivity {
         }
 
         for(int i = 0; i < mPlayerTwo.getScoreHistory().size(); i++) {
+            double score = mPlayerTwo.getScoreHistory().get(i);
+            if (score % 1 != 0) {
+                p2NumberOfFoulsAwarded ++;
+                p2FoulPointsAwarded += score;
+            }
             TableRow rScores = new TableRow(this);
             rScores.setGravity(Gravity.CENTER_HORIZONTAL);
             ImageView imScore = new ImageView(this);
-            imScore.setImageBitmap(getBallColour(mPlayerTwo.getScoreHistory().get(i)));
+            imScore.setImageBitmap(getBallColour(score));
             rScores.addView(imScore);
             p2ScoreTable.addView(rScores);
             p2FrameTotal += mPlayerTwo.getScoreHistory().get(i);
@@ -333,13 +350,13 @@ public class StatsActivity extends AppCompatActivity {
     }
 
     public void updateTotalPoints() {
-        String sTotalPoints = " - Total points scored - ";
+        String sTotalPoints = p1TotalPoints + " - Total points scored - " + p2TotalPoints;
         TextView tvTotalPoints = statsTable.findViewById(R.id.statsTotalPointsTextView);
-        tvTotalPoints.setText((p1TotalPoints - Math.round(p1FoulPointsAwarded)) + sTotalPoints + p2TotalPoints);
+        tvTotalPoints.setText(sTotalPoints);
 }
 
     public void updateFoulPoints() {
-        String sFoulPoints = Math.round(p1FoulPointsAwarded) + " - Foul points awarded - " + p2TotalPoints;
+        String sFoulPoints = Math.round(p1FoulPointsAwarded) + " - Foul points awarded - " + Math.round(p2FoulPointsAwarded);
         TextView tvFoulPoints = statsTable.findViewById(R.id.statsFoulPointsTextView);
         tvFoulPoints.setText(sFoulPoints);
     }
@@ -382,45 +399,44 @@ public class StatsActivity extends AppCompatActivity {
             p2PreviousFramePots += CurrentFrameSize;
         }
         p1TotalPots = (p1PreviousFramePots + mPlayerOne.ScoreHistory.size()) - p1NumberOfFoulsAwarded;
-        Log.d("p1foulcount ",Integer.toString(p1NumberOfFoulsAwarded));
-        p2TotalPots = p2PreviousFramePots + mPlayerTwo.ScoreHistory.size();
+        p2TotalPots = (p2PreviousFramePots + mPlayerTwo.ScoreHistory.size()) - p2NumberOfFoulsAwarded;
 
         String sTotalBalls = p1TotalPots + " - Total balls potted - " + p2TotalPots;
         TextView tvTotalBalls = statsTable.findViewById(R.id.statsTotalBallsTextView);
         tvTotalBalls.setText(sTotalBalls);
     }
 
-    public Bitmap getBallColour(float fScore) {
+    public Bitmap getBallColour(double score) {
         int colourDrawable = 0;
         Bitmap colourBMP;
-        if (fScore % 1 == 0 ) {
-                if (fScore == 1) {
+        if (score % 1 == 0 ) {
+                if (score == 1) {
                     colourDrawable = R.drawable.red_ball;
-                } else if (fScore == 2) {
+                } else if (score == 2) {
                     colourDrawable = R.drawable.yellow_ball;
-                } else if (fScore == 3) {
+                } else if (score == 3) {
                     colourDrawable = R.drawable.green_ball;
-                } else if (fScore == 4) {
+                } else if (score == 4) {
                     colourDrawable = R.drawable.brown_ball;
-                } else if (fScore == 5) {
+                } else if (score == 5) {
                     colourDrawable = R.drawable.blue_ball;
-                } else if (fScore == 6) {
+                } else if (score == 6) {
                     colourDrawable = R.drawable.pink_ball;
-                } else if (fScore == 7) {
+                } else if (score == 7) {
                     colourDrawable = R.drawable.black_ball;
                 }
 
         } else {
-            if (fScore * 10000 == 40001) {
+            if (Math.round(score*10000) == 40001) {
                 colourDrawable = R.drawable._foul4;
             }
-            else if (fScore * 10000 == 50001) {
+            else if (Math.round(score*10000) == 50001) {
                 colourDrawable = R.drawable._foul5;
             }
-            else if (fScore * 10000 == 60001) {
+            else if (Math.round(score*10000) == 60001) {
                 colourDrawable = R.drawable._foul6;
             }
-            else if (fScore * 10000 == 70001) {
+            else if (Math.round(score*10000)== 70001) {
                 colourDrawable = R.drawable._foul7;
             } else {
                 colourDrawable = R.drawable._foul;

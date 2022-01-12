@@ -56,7 +56,6 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
         case R.id.add:
-
             return(true);
         case R.id.about:
             //add the function to perform here

@@ -1,16 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/endFrame"
-        android:title="End Frame"
-        android:orderInCategory="101"
-        app:showAsAction="always">
-    </item>
+
     <item
         android:id="@+id/options"
         android:title="Options"
         android:orderInCategory="101"
         app:showAsAction="never">
+    </item>
+    <item
+        android:id="@+id/stats"
+        android:title="Stats"
+        android:orderInCategory="101"
+        app:showAsAction="ifRoom">
     </item>
     <item
         android:id="@+id/rules"
@@ -19,10 +20,10 @@
         app:showAsAction="never">
     </item>
     <item
-        android:id="@+id/stats"
-        android:title="Match Stats"
+        android:id="@+id/endFrame"
+        android:title="End Frame"
         android:orderInCategory="101"
-        app:showAsAction="never">
+        app:showAsAction="ifRoom">
     </item>
     <item
         android:id="@+id/endMatch"
@@ -32,7 +33,3 @@
     </item>
 </menu>
 <!-- TODO  Add OPTIONS Action/fragment -->
-<!-- TODO  Add RULES info/fragment -->
-<!-- TODO  Add ABOUT info/fragment -->
-<!-- TODO  Add SHARE info/fragment -->
-<!-- TODO  END MATCH to return to home screen with user confirmation -->

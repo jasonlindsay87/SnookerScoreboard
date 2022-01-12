@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Baize</string>
+    <string name="app_name">Snooker Scoreboard</string>
     <string name="welcome_header">Snooker \nScoreboard</string>
-    <string name="name_player_one">Player One</string>
+    <string name="name_player_one">Player One*</string>
     <string name="name_player_two">Player Two</string>
     <string name="start_match">Start Match</string>
     <string name="vs">vs.</string>
@@ -9,7 +9,7 @@
     <string name="TextView">TextView</string>
     <string name="Settings">Settings</string>
     <string name="high_break">Highest break</string>
-    <string name="game_on">* Player One to break</string>
+    <string name="PlayerOneBreak">* Player One to break</string>
     <string name="close">Close</string>
     <string name="start">Start</string>
     <string name="background">background</string>
@@ -18,5 +18,25 @@
     <string name="hyphen">-</string>
     <string name="match_summary">Match Summary</string>
     <string name="logo">Logo</string>
-    <string name="enter_player_names_to_start_your_game">Enter player names to start your game</string>
+    <string name="GameOn">Game on!</string>
+    <string name="enter_player_names_to_start_your_game">Enter player names to start</string>
+    <string name="options">Options</string>
+    <string name="game_options">Game Options</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="keep_screen_on_during_game">Keep screen on during game</string>
 </resources>

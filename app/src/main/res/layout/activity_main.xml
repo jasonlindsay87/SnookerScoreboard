@@ -4,16 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBlack"
+    android:scaleType="centerCrop"
     tools:context=".MainActivity">
 
     <ImageView
-        android:id="@+id/imgLogo"
-        android:layout_width="279dp"
-        android:layout_height="143dp"
+        android:id="@+id/imageView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/colorBlack"
+        android:contentDescription="@string/background"
+        android:scaleType="centerCrop"
+        android:src="@drawable/snookertable"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/imgsplash"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingTop="100dp"
+        android:paddingBottom="400dp"
+        android:gravity="center"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.246"
+        app:srcCompat="@drawable/splash" />
+
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="90dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/logowhite" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -89,20 +90,21 @@ public class ScoreboardActivity extends AppCompatActivity {
                         mPlayerTwo.setScore(foulPoints);
                         foulPoints = Math.round(foulPoints);
                         updateP2Score(null);
-                        displayPopup(String.format("%.0f",foulPoints) +" foul points awarded to\n" + mPlayerTwo.Name);
+                        displayPopup(String.format("%.0f", foulPoints) + " foul points awarded to\n" + mPlayerTwo.Name);
                         //Toast.makeText(getApplicationContext(), foulPoints + " foul points awarded to " + mPlayerTwo.Name, Toast.LENGTH_SHORT).show();
                     }
                     if (mTable.getActivePlayer() == mPlayerTwo) {
                         mPlayerOne.setScore(foulPoints);
                         foulPoints = Math.round(foulPoints);
                         updateP1Score(null);
-                        displayPopup(String.format("%.0f",foulPoints) +" foul points awarded to\n " + mPlayerOne.Name);
+                        displayPopup(String.format("%.0f", foulPoints) + " foul points awarded to\n " + mPlayerOne.Name);
                         //Toast.makeText(getApplicationContext(), foulPoints + " foul points awarded to " + mPlayerOne.Name, Toast.LENGTH_SHORT).show();
                     }
                 }
                 spinnerFouls.setSelection(0);
 
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -202,12 +204,12 @@ public class ScoreboardActivity extends AppCompatActivity {
         mFoulList = new ArrayList<>();
         mFoulList.add(new FoulItems(0, R.drawable._foul));
         mFoulList.add(new FoulItems((float) 4.0001, R.drawable._foul4));
-        mFoulList.add(new FoulItems((float)5.0001, R.drawable._foul5));
-        mFoulList.add(new FoulItems((float)6.0001, R.drawable._foul6));
-        mFoulList.add(new FoulItems((float)7.0001, R.drawable._foul7));
+        mFoulList.add(new FoulItems((float) 5.0001, R.drawable._foul5));
+        mFoulList.add(new FoulItems((float) 6.0001, R.drawable._foul6));
+        mFoulList.add(new FoulItems((float) 7.0001, R.drawable._foul7));
     }
 
-    public void ballPotted(int score) {
+    public void ballPotted(double score) {
         if (mTable.getActivePlayer() == mPlayerOne) {
             mPlayerOne.setScore(score);
             updateP1Score(null);
@@ -272,7 +274,7 @@ public class ScoreboardActivity extends AppCompatActivity {
         updateP1Score(null);
         updateP2Score(null);
         iFrameCount++;
-        displayPopup(frameWinner + " wins the frame!\n\n- Frame " + iFrameCount + " -\n" + mTable.getActivePlayer().Name+ " to break");
+        displayPopup(frameWinner + " wins the frame!\n\n- Frame " + iFrameCount + " -\n" + mTable.getActivePlayer().Name + " to break");
         //Toast.makeText(getApplicationContext(), "Frame " + iFrameCount + ". " + mTable.getActivePlayer().Name + " to break", Toast.LENGTH_LONG).show();
         tP1Frames.setText(Integer.toString(mPlayerOne.getFrameCount()));
         tP2Frames.setText(Integer.toString(mPlayerTwo.getFrameCount()));
@@ -300,12 +302,16 @@ public class ScoreboardActivity extends AppCompatActivity {
             case R.id.stats:
                 showStats();
                 break;
+            case R.id.options:
+                //showOptions();
+                break;
             case R.id.endMatch:
                 endMatch();
                 break;
         }
         return (super.onOptionsItemSelected(item));
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     public void newFrame(View view) {
@@ -387,20 +393,27 @@ public class ScoreboardActivity extends AppCompatActivity {
 
     public void displayPopup(String message) {
 
-        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext()
-                .getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = layoutInflater.inflate(R.layout.popup, null);
+
         final PopupWindow popupWindow = new PopupWindow(popupView,
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
         TextView tvpopUP = (TextView) popupView.findViewById(R.id.popupMessage);
         tvpopUP.setText(message);
-        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
 
         new Handler().postDelayed(new Runnable(){
+
+            public void run() {
+                popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.CENTER,0,0);
+            }
+
+        }, 500L);
+
+        new Handler().postDelayed(new Runnable() {
             public void run() {
                 popupWindow.dismiss();
             }
-        }, 5000);
+        }, 3500);
     }
 }

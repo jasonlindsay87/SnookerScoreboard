@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 public class FoulAdapter extends ArrayAdapter<FoulItems> {
-    public FoulAdapter(Context context, ArrayList<FoulItems> FoulList){
+    public FoulAdapter(Context context, ArrayList<FoulItems> FoulList) {
         super(context, 0, FoulList);
     }
 
@@ -28,9 +28,9 @@ public class FoulAdapter extends ArrayAdapter<FoulItems> {
         return initView(position, convertView, parent);
     }
 
-    private View initView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
-        if (convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.foul_spinner_layout,parent,false);
+    private View initView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.foul_spinner_layout, parent, false);
         }
         ImageView imageViewFoulBall = convertView.findViewById(R.id.img_foul);
 

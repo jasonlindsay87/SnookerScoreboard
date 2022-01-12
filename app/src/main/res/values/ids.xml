@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="statsTotalPointsTextView" />
+    <item type="id" name="statsAveragePotTextView" />
+    <item type="id" name="statsTotalBallsTextView" />
+    <item type="id" name="statsFoulPointsTextView" />
+    <item type="id" name="statsNumberOfEachBallRow" />
+
+</resources>

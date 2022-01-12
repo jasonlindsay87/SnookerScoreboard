@@ -20,46 +20,43 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:contentDescription="@string/background"
         android:scaleType="centerCrop"
-        android:src="@drawable/background"
+        android:src="@drawable/snookertable"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <LinearLayout
-        android:id="@+id/bannerLayout"
-        android:layout_width="fill_parent"
+    <ImageView
+        android:id="@+id/banner"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:scaleX="0.9"
+        android:scaleY="0.9"
+        app:layout_constraintBottom_toTopOf="@id/playerNames"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homeToolbar"
-        android:gravity="center"
-        android:background="@color/cardview_shadow_start_color">
-
-        <TextView
-            android:id="@+id/banner"
-            android:layout_width="261dp"
-            android:layout_height="126dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/banner"
-            android:gravity="center" />
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@id/homeToolbar"
+        app:layout_constraintVertical_bias="0.222"
+        app:srcCompat="@drawable/banner" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/playerNames"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="80dp"
+        android:background="@drawable/text_background"
         android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bannerLayout"
-        app:layout_constraintVertical_bias="0.615">
+        app:layout_constraintTop_toBottomOf="@id/banner"
+        app:layout_constraintVertical_bias="1.0">
+
 
         <TextView
             android:id="@+id/enterPlayerNames"
@@ -69,30 +66,52 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/text_background"
             android:fontFamily="@font/roboto_medium"
-            android:text="@string/enter_player_names_to_start_your_game"
+            android:text="@string/GameOn"
             android:textAlignment="center"
             android:textColor="@color/colorWhite"
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/p1name"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:autofillHints=""
-            android:background="@drawable/text_border"
-            android:ems="12"
-            android:fontFamily="@font/roboto_medium"
-            android:hint="@string/name_player_one"
-            android:inputType="textPersonName"
-            android:maxLength="10"
-            android:padding="8dp"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhite"
-            android:textColorHint="@android:color/darker_gray"
-            android:textCursorDrawable="@null"
-            android:textStyle="italic" />
+            android:orientation="horizontal">
+
+            <ImageView
+                android:paddingRight="5dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter"
+                android:src="@drawable/_white" />
+
+            <EditText
+                android:id="@+id/p1name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:background="@drawable/text_border"
+                android:ems="12"
+                android:fontFamily="@font/roboto_medium"
+                android:hint="@string/name_player_one"
+                android:inputType="textPersonName"
+                android:maxLength="10"
+                android:padding="8dp"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite"
+                android:textCursorDrawable="@null"
+                android:textStyle="italic" />
+
+            <ImageView
+                android:paddingLeft="5dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter"
+                android:src="@drawable/red_ball" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/txtVs"
@@ -106,11 +125,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/p1name" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+        <ImageView
+            android:paddingRight="5dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:src="@drawable/red_ball" />
         <EditText
             android:id="@+id/p2name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
             android:autofillHints=""
             android:background="@drawable/text_border"
             android:ems="12"
@@ -121,10 +151,18 @@
             android:padding="8dp"
             android:textAlignment="center"
             android:textColor="@color/colorWhite"
-            android:textColorHint="@android:color/darker_gray"
+            android:textColorHint="@color/colorWhite"
             android:textCursorDrawable="@null"
             android:textStyle="italic" />
+        <ImageView
+            android:paddingLeft="5dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:src="@drawable/_white" />
 
+    </LinearLayout>
         <TextView
             android:id="@+id/txtGameOn"
             android:layout_width="match_parent"
@@ -132,7 +170,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
             android:fontFamily="@font/roboto_medium"
-            android:text="@string/game_on"
+            android:text="@string/PlayerOneBreak"
             android:textAlignment="center"
             android:textColor="@color/colorWhite"
             android:textSize="12sp"
@@ -160,6 +198,6 @@
         android:contentDescription="@string/logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/logo_white" />
+        app:srcCompat="@drawable/logowhite" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

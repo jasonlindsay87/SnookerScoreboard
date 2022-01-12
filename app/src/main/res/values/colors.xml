@@ -6,6 +6,8 @@
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGreen">#2E7D32</color>
-    <color name="colorYellow">#FDD835</color>
+    <color name="colorYellow">#DABB31</color>
     <color name="colorDark">#4A4A4A</color>
+    <color name="colorBlue">#1C7CCF</color>
+    <color name="black_overlay">#66000000</color>
 </resources>

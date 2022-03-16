@@ -1,12 +1,16 @@
 package com.e.baize;
 
-import android.content.res.Resources;
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -15,18 +19,40 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayout;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatsActivity<p1ScoreList> extends AppCompatActivity {
+public class StatsActivity extends AppCompatActivity {
+    // Storage Permissions
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+
     public StatsItems mStatsItems;
-    public TableLayout statsTable;
+    public Game game;
+    public TableLayout summaryTable;
+    public TableLayout scoresTable;
     public TableLayout frameTable;
     public TableLayout p1ScoreTable;
     public TableLayout p2ScoreTable;
+    public LinearLayout scoresLayout;
+    public File imagePath;
     public int iFramesPlayed = 0;
 
     public Player mPlayerOne;
@@ -43,22 +69,46 @@ public class StatsActivity<p1ScoreList> extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},00);
         setContentView(R.layout.activity_stats);
-        statsTable = (TableLayout) findViewById(R.id.tblStats);
+        summaryTable = (TableLayout) findViewById(R.id.tblSummary);
+        scoresTable = (TableLayout) findViewById(R.id.tblStats);
+        scoresLayout = (LinearLayout) findViewById(R.id.linearScores);
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             this.mStatsItems = (StatsItems) getIntent().getSerializableExtra("mMatchStats");
             this.mPlayerOne = (Player) getIntent().getSerializableExtra("mPlayerOne");
             this.mPlayerTwo = (Player) getIntent().getSerializableExtra("mPlayerTwo");
+            this.game = (Game) getIntent().getSerializableExtra("Game");
         }
+        assert game!= null;
+        for (Frame frame : game.frames) {
+            ArrayList<String> p1scores = new ArrayList<>();
+            ArrayList<String> p2scores = new ArrayList<>();
+            ArrayList<Shot> shots = new ArrayList<>();
+            shots = Frame.getPlayerShotsInFrame(frame.frameID, game.playerOne.playerID);
+            for (Shot shot : shots) {
+                p1scores.add(Double.toString(shot.score));
+            }
+            shots = Frame.getPlayerShotsInFrame(frame.frameID, game.playerTwo.playerID);
+            for (Shot shot : shots) {
+                p2scores.add(Double.toString(shot.score));
+            }
+            mStatsItems.p1Scores.add(p1scores);
+            mStatsItems.p2Scores.add(p2scores);
+
+        }
+
         addPlayerNames();
         addCurrentMatchScore();
+        addGameTimeRow();
         addTotalPointsRow();
         addTotalBallsPottedRow();
         addFoulsAwardedRow();
         addNumberOfEachBall();
-        addPreviousFrames();
-        addCurrentFrame();
+
+        addFrames();
         updateTotalPoints();
         updateFoulPoints();
         updateNumberOfEachBall();
@@ -66,8 +116,8 @@ public class StatsActivity<p1ScoreList> extends AppCompatActivity {
     }
 
     public void addPlayerNames() {
-        String sNameP1 = (String) mPlayerOne.Name;
-        String sNameP2 = (String) mPlayerTwo.Name;
+        String sNameP1 = (String) mPlayerOne.playerName;
+        String sNameP2 = (String) mPlayerTwo.playerName;
         TextView tvNameP1 = new TextView(this);
         TextView tvNameP2 = new TextView(this);
         TableRow rNames = new TableRow(this);
@@ -92,11 +142,11 @@ public class StatsActivity<p1ScoreList> extends AppCompatActivity {
         rNames.addView(tvNameP1);
         rNames.addView(tvNameP2);
         rNames.setGravity(Gravity.CENTER);
-        statsTable.addView(rNames);
+        summaryTable.addView(rNames);
     }
 
     public void addCurrentMatchScore() {
-        String sFrames = mStatsItems.getP1FramesWon(mPlayerOne) + "     -     " + mStatsItems.getP2FramesWon(mPlayerTwo);
+        String sFrames = mPlayerOne.getFramesWonCount(game) + "     -     " + mPlayerTwo.getFramesWonCount(game);
         TextView tvFrames = new TextView(this);
         TableRow rFrames = new TableRow(this);
         TableRow.LayoutParams rowLayout = new TableRow.LayoutParams();
@@ -112,63 +162,80 @@ public class StatsActivity<p1ScoreList> extends AppCompatActivity {
         rowLayout.span = 2;
         rFrames.addView(tvFrames);
         rFrames.setGravity(Gravity.CENTER);
-        statsTable.addView(rFrames);
+        summaryTable.addView(rFrames);
     }
 
-    public void addPreviousFrames() {
+    public void addFrames() {
+        p1ScoreTable = new TableLayout(this);
+        p2ScoreTable = new TableLayout(this);
         while ((iFramesPlayed < mStatsItems.p1Scores.size()) && (iFramesPlayed < mStatsItems.p2Scores.size())) {
             addFrameHeader(iFramesPlayed + 1);
-            p1ScoreTable = new TableLayout(this);
-            p2ScoreTable = new TableLayout(this);
-            frameTable = new TableLayout(this);
 
-            TableRow rTotals = new TableRow(this);
+            LinearLayout frameLayout = new LinearLayout(this);
+            frameLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+            FlexboxLayout.LayoutParams fbLayout = new FlexboxLayout.LayoutParams(500, FlexboxLayout.LayoutParams.WRAP_CONTENT);
+            fbLayout.setFlexGrow(1f);
+
+            FlexboxLayout p1ScoresLayout = new FlexboxLayout(this);
+            p1ScoresLayout.setLayoutParams(fbLayout);
+            p1ScoresLayout.setFlexDirection(FlexDirection.ROW);
+            p1ScoresLayout.setFlexWrap(FlexWrap.WRAP);
+
+            FlexboxLayout p2ScoresLayout = new FlexboxLayout(this);
+            p2ScoresLayout.setLayoutParams(fbLayout);
+            p2ScoresLayout.setFlexDirection(FlexDirection.ROW);
+            p2ScoresLayout.setFlexWrap(FlexWrap.WRAP);
+
             TextView tvP1Total = new TextView(this);
+            tvP1Total.setPadding(0,10,50,0);
             TextView tvP2Total = new TextView(this);
+            tvP2Total.setPadding(50,10,0,0);
 
             for (int j = iFramesPlayed; j < iFramesPlayed + 1; j++) {
                 double frameTotal = 0;
+
                 for (int k = 0; k < mStatsItems.p1Scores.get(iFramesPlayed).size(); k++) {
                     double score = Double.parseDouble(mStatsItems.p1Scores.get(iFramesPlayed).get(k));
+
+                    ImageView imScore = new ImageView(this);
+                    imScore.setPadding(0,10,7,0);
+                    imScore.setImageBitmap(getBallColour(score));
+                    p1ScoresLayout.addView(imScore);
+                    frameTotal += score;
+
+                    if (score % 1 == 0) p1ScoreList.add(score);
                     if (score % 1 != 0) {
                         p1NumberOfFoulsAwarded++;
                         p1FoulPointsAwarded += score;
                     }
-                    TableRow rScores = new TableRow(this);
-                    rScores.setGravity(Gravity.CENTER);
-                    ImageView imScore = new ImageView(this);
-                    imScore.setImageBitmap(getBallColour(score));
-                    rScores.addView(imScore);
-                    p1ScoreTable.addView(rScores);
-                    frameTotal += score;
-                    if (score % 1 == 0)
-                        p1ScoreList.add(score);
                 }
+
                 String sTotal = "(" + Math.round(frameTotal) + ")";
                 p1TotalPoints += frameTotal;
                 tvP1Total.setText(sTotal);
                 tvP1Total.setTextColor(getResources().getColor(R.color.colorWhite));
                 tvP1Total.setTypeface(null, Typeface.BOLD);
                 tvP1Total.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                tvP1Total.setGravity(Gravity.CENTER);
             }
-
+            frameLayout.addView(p1ScoresLayout);
             for (int j = iFramesPlayed; j < iFramesPlayed + 1; j++) {
                 double frameTotal = 0;
                 for (int k = 0; k < mStatsItems.p2Scores.get(iFramesPlayed).size(); k++) {
                     double score = Double.parseDouble(mStatsItems.p2Scores.get(iFramesPlayed).get(k));
+
+                    ImageView imScore = new ImageView(this);
+                    imScore.setPadding(0, 10, 7, 0);
+                    imScore.setImageBitmap(getBallColour(score));
+                    p2ScoresLayout.addView(imScore);
+                    frameTotal += score;
+
+                    if (score % 1 == 0) p2ScoreList.add(score);
                     if (score % 1 != 0) {
                         p2NumberOfFoulsAwarded++;
                         p2FoulPointsAwarded += score;
                     }
-                    TableRow rScores = new TableRow(this);
-                    rScores.setGravity(Gravity.CENTER);
-                    ImageView imScore = new ImageView(this);
-                    imScore.setImageBitmap(getBallColour(score));
-                    rScores.addView(imScore);
-                    p2ScoreTable.addView(rScores);
-                    frameTotal += score;
-                    if (score % 1 == 0)
-                        p2ScoreList.add(score);
                 }
 
                 String sTotal = "(" + Math.round(frameTotal) + ")";
@@ -177,122 +244,67 @@ public class StatsActivity<p1ScoreList> extends AppCompatActivity {
                 tvP2Total.setTextColor(getResources().getColor(R.color.colorWhite));
                 tvP2Total.setTypeface(null, Typeface.BOLD);
                 tvP2Total.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                tvP2Total.setGravity(Gravity.CENTER);
             }
+            frameLayout.addView(p2ScoresLayout);
+
             if (Double.parseDouble(tvP1Total.getText().toString().replaceAll("\\D+", "")) > Double.parseDouble(tvP2Total.getText().toString().replaceAll("\\D+", ""))) {
                 tvP1Total.setTextColor(getResources().getColor(R.color.colorYellow));
-            } else {
+            } else if (Double.parseDouble(tvP2Total.getText().toString().replaceAll("\\D+", "")) > Double.parseDouble(tvP1Total.getText().toString().replaceAll("\\D+", ""))) {
                 tvP2Total.setTextColor(getResources().getColor(R.color.colorYellow));
             }
 
-            rTotals.addView(tvP1Total);
-            rTotals.addView(tvP2Total);
-            TableRow rScores = new TableRow(this);
-            rScores.addView(p1ScoreTable);
-            rScores.addView(p2ScoreTable);
-            rScores.setGravity(Gravity.CENTER_HORIZONTAL);
-            rTotals.setGravity(Gravity.CENTER_HORIZONTAL);
-            statsTable.addView(rScores);
-            statsTable.addView(rTotals);
+            scoresLayout.addView(frameLayout);
+            LinearLayout frameScoreContainerLayout = new LinearLayout(this);
+            frameScoreContainerLayout.setGravity(Gravity.CENTER);
+            frameScoreContainerLayout.setPadding(0,5,0,20);
+
+            frameScoreContainerLayout.addView(tvP1Total);
+            frameScoreContainerLayout.addView(tvP2Total);
+            scoresLayout.addView(frameScoreContainerLayout);
             iFramesPlayed++;
         }
-    }
 
-    public void addCurrentFrame() {
-        int p1Score = 0;
-        int p2Score = 0;
-        addFrameHeader(iFramesPlayed + 1);
-        p1ScoreTable = new TableLayout(this);
-        p2ScoreTable = new TableLayout(this);
-        frameTable = new TableLayout(this);
-        TableRow rTotals = new TableRow(this);
-        TextView tvP1Total = new TextView(this);
-        TextView tvP2Total = new TextView(this);
-        int p1FrameTotal = 0;
-        int p2FrameTotal = 0;
-
-        for (int i = 0; i < mPlayerOne.getScoreHistory().size(); i++) {
-            double score = mPlayerOne.getScoreHistory().get(i);
-            if (score % 1 != 0) {
-                p1NumberOfFoulsAwarded++;
-                p1FoulPointsAwarded += score;
-            }
-            TableRow rScores = new TableRow(this);
-            rScores.setGravity(Gravity.CENTER);
-            ImageView imScore = new ImageView(this);
-            imScore.setImageBitmap(getBallColour(score));
-            rScores.addView(imScore);
-            p1ScoreTable.addView(rScores);
-            p1FrameTotal += mPlayerOne.getScoreHistory().get(i);
-            String sTotal = "(" + Integer.toString(p1FrameTotal) + ")";
-            tvP1Total.setText(sTotal);
-            tvP1Total.setTextColor(getResources().getColor(R.color.colorWhite));
-            tvP1Total.setTypeface(null, Typeface.BOLD);
-            tvP1Total.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            if (score % 1 == 0)
-                p1ScoreList.add(score);
-        }
-
-        for (int i = 0; i < mPlayerTwo.getScoreHistory().size(); i++) {
-            double score = mPlayerTwo.getScoreHistory().get(i);
-            if (score % 1 != 0) {
-                p2NumberOfFoulsAwarded++;
-                p2FoulPointsAwarded += score;
-            }
-            TableRow rScores = new TableRow(this);
-            rScores.setGravity(Gravity.CENTER_HORIZONTAL);
-            ImageView imScore = new ImageView(this);
-            imScore.setImageBitmap(getBallColour(score));
-            rScores.addView(imScore);
-            p2ScoreTable.addView(rScores);
-            p2FrameTotal += mPlayerTwo.getScoreHistory().get(i);
-            String sTotal = "(" + Integer.toString(p2FrameTotal) + ")";
-            tvP2Total.setText(sTotal);
-            tvP2Total.setTextColor(getResources().getColor(R.color.colorWhite));
-            tvP2Total.setTypeface(null, Typeface.BOLD);
-            tvP2Total.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            if (score % 1 == 0)
-                p2ScoreList.add(score);
-        }
-
-        p1TotalPoints += p1FrameTotal;
-        p2TotalPoints += p2FrameTotal;
-        TableRow rInPlay = new TableRow(this);
-        rInPlay.setGravity(Gravity.CENTER);
         TextView tvInPlay = new TextView(this);
-        tvInPlay.setText("Frame " + (iFramesPlayed + 1) + " in play...");
-        tvInPlay.setTextColor(getResources().getColor(R.color.colorWhite));
+        tvInPlay.setPadding(2,2,2,2);
         tvInPlay.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        tvInPlay.setTypeface(null, Typeface.ITALIC);
-        rInPlay.addView(tvInPlay);
-        rTotals.addView(tvP1Total);
-        rTotals.addView(tvP2Total);
-        TableRow rScores = new TableRow(this);
-        rScores.addView(p1ScoreTable);
-        rScores.addView(p2ScoreTable);
-        rScores.setGravity(Gravity.CENTER_HORIZONTAL);
-        rTotals.setGravity(Gravity.CENTER_HORIZONTAL);
-        statsTable.addView(rScores);
-        statsTable.addView(rTotals);
-        statsTable.addView(rInPlay);
+        tvInPlay.setText("Frame "+ iFramesPlayed + " in play...");
+        tvInPlay.setTypeface(null, Typeface.BOLD);
+        tvInPlay.setTextColor(getResources().getColor(R.color.colorWhite));
+        scoresLayout.addView(tvInPlay);
     }
 
     public void addFrameHeader(Integer iFrameNumber) {
-        String sFrame = "Frame " + iFrameNumber;
+        Frame frame = Frame.getFrameFromNumber(game.gameID, iFrameNumber);
+        String sFrame = "Frame " + iFrameNumber + "\n " + frame.frameTime;
         TextView tvFrame = new TextView(this);
-        TableRow rFrame = new TableRow(this);
-        TableRow.LayoutParams rowLayout = new TableRow.LayoutParams();
-        tvFrame.setLayoutParams(rowLayout);
         tvFrame.setText(sFrame);
-        tvFrame.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+        tvFrame.setBackgroundColor(getResources().getColor(R.color.colorWhiteFade));
         tvFrame.setTextColor(getResources().getColor(R.color.colorBlack));
         tvFrame.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tvFrame.setTextSize(14);
-        tvFrame.setTypeface(null, Typeface.ITALIC);
+        tvFrame.setTypeface(null, Typeface.BOLD_ITALIC);
         tvFrame.setPadding(0, 5, 0, 5);
+        scoresLayout.addView(tvFrame);
+
+    }
+
+    public void addGameTimeRow() {
+        String sGameTime = "Match time - " + Game.gameTimer(game.gameID);
+        TextView tvStats = new TextView(this);
+        tvStats.setId(R.id.statsGameTimeTextView);
+        TableRow rGameTime = new TableRow(this);
+        TableRow.LayoutParams rowLayout = new TableRow.LayoutParams();
+        tvStats.setLayoutParams(rowLayout);
+        tvStats.setText(sGameTime);
+        tvStats.setTextColor(getResources().getColor(R.color.colorWhite));
+        tvStats.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        tvStats.setTextSize(14);
+        tvStats.setPadding(0, 5, 0, 5);
         rowLayout.span = 2;
-        rFrame.setGravity(Gravity.CENTER);
-        rFrame.addView(tvFrame);
-        statsTable.addView(rFrame);
+        rGameTime.setGravity(Gravity.CENTER);
+        rGameTime.addView(tvStats);
+        summaryTable.addView(rGameTime);
     }
 
     public void addTotalPointsRow() {
@@ -310,7 +322,7 @@ public class StatsActivity<p1ScoreList> extends AppCompatActivity {
         rowLayout.span = 2;
         rTotalPoints.setGravity(Gravity.CENTER);
         rTotalPoints.addView(tvStats);
-        statsTable.addView(rTotalPoints);
+        summaryTable.addView(rTotalPoints);
     }
 
     public void addFoulsAwardedRow() {
@@ -328,14 +340,14 @@ public class StatsActivity<p1ScoreList> extends AppCompatActivity {
         rowLayout.span = 2;
         rFoulPoints.setGravity(Gravity.CENTER);
         rFoulPoints.addView(tvStats);
-        statsTable.addView(rFoulPoints);
+        summaryTable.addView(rFoulPoints);
     }
 
     public void addNumberOfEachBall() {
         TableRow rNumberOfEachBall = new TableRow(this);
         rNumberOfEachBall.setId(R.id.statsNumberOfEachBallRow);
         rNumberOfEachBall.setGravity(Gravity.CENTER);
-        statsTable.addView(rNumberOfEachBall);
+        summaryTable.addView(rNumberOfEachBall);
     }
 
     public void updateNumberOfEachBall() {
@@ -485,7 +497,7 @@ public class StatsActivity<p1ScoreList> extends AppCompatActivity {
         tvBlackBall2.setText(Integer.toString(countBlacks2));
         p2Balls.addView(tvBlackBall2);
 
-        TableRow rNumberOfEachBall = statsTable.findViewById(R.id.statsNumberOfEachBallRow);
+        TableRow rNumberOfEachBall = summaryTable.findViewById(R.id.statsNumberOfEachBallRow);
         rNumberOfEachBall.addView(p1Balls);
         rNumberOfEachBall.addView(p2Balls);
     }
@@ -505,7 +517,7 @@ public class StatsActivity<p1ScoreList> extends AppCompatActivity {
         rowLayout.span = 2;
         rAveragePot.setGravity(Gravity.CENTER);
         rAveragePot.addView(tvStats);
-        statsTable.addView(rAveragePot);
+        scoresTable.addView(rAveragePot);
     }
 
     public void addTotalBallsPottedRow() {
@@ -523,18 +535,18 @@ public class StatsActivity<p1ScoreList> extends AppCompatActivity {
         rowLayout.span = 2;
         rTotalBalls.setGravity(Gravity.CENTER);
         rTotalBalls.addView(tvStats);
-        statsTable.addView(rTotalBalls);
+        summaryTable.addView(rTotalBalls);
     }
 
     public void updateTotalPoints() {
         String sTotalPoints = p1TotalPoints + " - Total points scored - " + p2TotalPoints;
-        TextView tvTotalPoints = statsTable.findViewById(R.id.statsTotalPointsTextView);
+        TextView tvTotalPoints = summaryTable.findViewById(R.id.statsTotalPointsTextView);
         tvTotalPoints.setText(sTotalPoints);
     }
 
     public void updateFoulPoints() {
         String sFoulPoints = Math.round(p1FoulPointsAwarded) + " - Foul points awarded - " + Math.round(p2FoulPointsAwarded);
-        TextView tvFoulPoints = statsTable.findViewById(R.id.statsFoulPointsTextView);
+        TextView tvFoulPoints = summaryTable.findViewById(R.id.statsFoulPointsTextView);
         tvFoulPoints.setText(sFoulPoints);
     }
 
@@ -557,7 +569,7 @@ public class StatsActivity<p1ScoreList> extends AppCompatActivity {
         p2Average = p2TotalPoints / ((mPlayerTwo.ScoreHistory.size() + p2ScoreListSize) == 0 ? 1 : mPlayerTwo.ScoreHistory.size() + p2ScoreListSize);
 
         String sAveragePot = p1Average + " - Average pot - " + p2Average;
-        TextView tvAveragePot = statsTable.findViewById(R.id.statsAveragePotTextView);
+        TextView tvAveragePot = scoresTable.findViewById(R.id.statsAveragePotTextView);
         tvAveragePot.setText(sAveragePot);
     }
 
@@ -579,7 +591,7 @@ public class StatsActivity<p1ScoreList> extends AppCompatActivity {
         p2TotalPots = (p2PreviousFramePots + mPlayerTwo.ScoreHistory.size()) - p2NumberOfFoulsAwarded;
 
         String sTotalBalls = p1ScoreList.size() + " - Total balls potted - " + p2ScoreList.size();
-        TextView tvTotalBalls = statsTable.findViewById(R.id.statsTotalBallsTextView);
+        TextView tvTotalBalls = summaryTable.findViewById(R.id.statsTotalBallsTextView);
 
         tvTotalBalls.setText(sTotalBalls);
     }
@@ -665,7 +677,48 @@ public class StatsActivity<p1ScoreList> extends AppCompatActivity {
     }
 
     public void bClose(View view) {
+        Animate.animateButton(view.findViewById(R.id.btnBack));
         finish();
     }
+
+    public void bShare (View view){
+        Bitmap bitmap = takeScreenshot();
+        saveBitmap(bitmap);
+        shareScreenshot();
+    }
+
+    public Bitmap takeScreenshot() {
+        View rootView = findViewById(android.R.id.content).getRootView();
+        rootView.setDrawingCacheEnabled(true);
+        return rootView.getDrawingCache();
+    }
+
+    public void saveBitmap(Bitmap bitmap) {
+        imagePath = new File(Environment.getExternalStorageDirectory() + "/screenshot.png");
+        FileOutputStream fos;
+        try {
+            fos = new FileOutputStream(imagePath);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            Log.e("GREC", e.getMessage(), e);
+        } catch (IOException e) {
+            Log.e("GREC", e.getMessage(), e);
+        }
+    }
+
+    private void shareScreenshot() {
+        Uri uri = Uri.fromFile(imagePath);
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("image/*");
+        String shareBody = "Snooker Scoreboard";
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Game");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        this.startActivity(Intent.createChooser(sharingIntent, "Share via"));
+    }
+
 }
 

@@ -6,9 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
 
@@ -33,8 +36,6 @@ public class FoulAdapter extends ArrayAdapter<FoulItems> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.foul_spinner_layout, parent, false);
         }
         ImageView imageViewFoulBall = convertView.findViewById(R.id.img_foul);
-
-
         FoulItems currentItem = getItem(position);
 
         if (currentItem != null) {

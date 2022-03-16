@@ -34,6 +34,7 @@ public class RulesActivity extends AppCompatActivity {
     }
 
     public void bClose(View view) {
+        Animate.animateButton(view.findViewById(R.id.btnBack));
         finish();
     }
 }

@@ -38,5 +38,24 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_saved_games">SavedGamesActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="saved_games">Saved Games</string>
+    <string name="resume">Resume</string>
     <string name="keep_screen_on_during_game">Keep screen on during game</string>
+    <string name="default_player_one_name">Default Player One name:</string>
+    <string name="player_one">Player One</string>
+    <string name="default_player_two_name">Default Player Two name:</string>
+    <string name="player_two">Player Two</string>
+
+    <!-- Options -->
+    <string name="options_defaultP1_name">DefaultPlayerOneName</string>
+    <string name="options_defaultP2_name">DefaultPlayerTwoName</string>
 </resources>

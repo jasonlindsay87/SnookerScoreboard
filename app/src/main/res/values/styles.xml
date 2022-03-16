@@ -1,10 +1,12 @@
 <resources>
-    <style name="AppTheme" parent="ThemeOverlay.AppCompat.Dark">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowActionBar">false</item>
+<!--        <item name="android:fontFamily">@font/alegreya_bold</item>-->
+<!--        <item name="fontFamily">@font/alegreya_bold</item>-->
     </style>
 
     <style name="Splash" parent="Theme.AppCompat.NoActionBar">

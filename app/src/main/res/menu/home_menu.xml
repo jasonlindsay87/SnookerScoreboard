@@ -3,23 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/options"
-        android:title="Options"
-        android:orderInCategory="101"
-        app:showAsAction="never">
-    </item>
-    <item
-        android:id="@+id/about"
-        android:title="About"
-        android:orderInCategory="101"
-        app:showAsAction="never">
-    </item>
-    <item
-        android:id="@+id/exit"
-        android:title="Exit"
-        android:orderInCategory="101"
-        app:showAsAction="never">
+        android:id="@+id/overflowMenu"
+        android:icon="@drawable/ic_menu"
+        android:title=""
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/options"
+                android:icon="@drawable/ic_settings"
+                android:title="Options">
+            </item>
+            <item
+                android:id="@+id/saved_games"
+                android:icon="@drawable/ic_update"
+                android:title="Saved Games">
+            </item>
+            <item
+                android:id="@+id/about"
+                android:icon="@drawable/ic_help_outline"
+                android:title="About">
+            </item>
+            <item
+                android:id="@+id/exit"
+                android:icon="@drawable/ic_exit_to_app"
+                android:title="Exit">
+            </item>
+        </menu>
     </item>
 </menu>
-    <!-- TODO  Add OPTIONS Action/fragment -->
-    <!-- TODO  Add ABOUT info/fragment -->

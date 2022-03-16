@@ -5,5 +5,7 @@
     <item type="id" name="statsTotalBallsTextView" />
     <item type="id" name="statsFoulPointsTextView" />
     <item type="id" name="statsNumberOfEachBallRow" />
+    <item type="id" name="statsGameTimeTextView" />
+
 
 </resources>

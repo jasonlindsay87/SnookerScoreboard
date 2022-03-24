@@ -4,7 +4,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowActionBar">false</item>
+        <item name="windowActionBar">false</item>
 <!--        <item name="android:fontFamily">@font/alegreya_bold</item>-->
 <!--        <item name="fontFamily">@font/alegreya_bold</item>-->
     </style>
@@ -12,7 +12,11 @@
     <style name="Splash" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowFullscreen">true</item>
     </style>
-    <style parent="@android:style/Widget.Spinner" name="SpinnerWithNoArrow">
+    <style name="SpinnerWithNoArrow" parent="@android:style/Widget.Spinner" >
         <item name="android:background">@android:drawable/edit_text</item>
+    </style>
+
+    <style name="screenOnSwitch" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/colorYellow </item>
     </style>
 </resources>

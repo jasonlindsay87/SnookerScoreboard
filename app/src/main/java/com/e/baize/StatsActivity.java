@@ -1,21 +1,27 @@
 package com.e.baize;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
+import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -23,6 +29,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
@@ -33,17 +40,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class StatsActivity extends AppCompatActivity {
-    // Storage Permissions
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
-    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
-
+    public ImageView shareButton;
     public StatsItems mStatsItems;
     public Game game;
     public TableLayout summaryTable;
@@ -52,7 +54,8 @@ public class StatsActivity extends AppCompatActivity {
     public TableLayout p1ScoreTable;
     public TableLayout p2ScoreTable;
     public LinearLayout scoresLayout;
-    public File imagePath;
+    public ScrollView scoresScroll;
+    public LinearLayout container;
     public int iFramesPlayed = 0;
 
     public Player mPlayerOne;
@@ -69,11 +72,14 @@ public class StatsActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},00);
+
         setContentView(R.layout.activity_stats);
         summaryTable = (TableLayout) findViewById(R.id.tblSummary);
         scoresTable = (TableLayout) findViewById(R.id.tblStats);
         scoresLayout = (LinearLayout) findViewById(R.id.linearScores);
+        shareButton = (ImageView) findViewById(R.id.btnShare);
+        scoresScroll = (ScrollView) findViewById(R.id.scrollScores);
+        container = (LinearLayout) findViewById(R.id.container);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -99,6 +105,15 @@ public class StatsActivity extends AppCompatActivity {
             mStatsItems.p2Scores.add(p2scores);
 
         }
+
+        verifyStoragePermission(StatsActivity.this);
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animate.animateButton(findViewById(R.id.shareLayout));
+                takeScreenShot(getWindow().getDecorView());
+            }
+        });
 
         addPlayerNames();
         addCurrentMatchScore();
@@ -173,6 +188,7 @@ public class StatsActivity extends AppCompatActivity {
 
             LinearLayout frameLayout = new LinearLayout(this);
             frameLayout.setOrientation(LinearLayout.HORIZONTAL);
+
 
             FlexboxLayout.LayoutParams fbLayout = new FlexboxLayout.LayoutParams(500, FlexboxLayout.LayoutParams.WRAP_CONTENT);
             fbLayout.setFlexGrow(1f);
@@ -681,43 +697,82 @@ public class StatsActivity extends AppCompatActivity {
         finish();
     }
 
-    public void bShare (View view){
-        Bitmap bitmap = takeScreenshot();
-        saveBitmap(bitmap);
-        shareScreenshot();
-    }
+    private void takeScreenShot(View view) {
+        Date date = new Date();
+        CharSequence format = DateFormat.format("MM-dd-yyyy_hh:mm:ss", date);
 
-    public Bitmap takeScreenshot() {
-        View rootView = findViewById(android.R.id.content).getRootView();
-        rootView.setDrawingCacheEnabled(true);
-        return rootView.getDrawingCache();
-    }
-
-    public void saveBitmap(Bitmap bitmap) {
-        imagePath = new File(Environment.getExternalStorageDirectory() + "/screenshot.png");
-        FileOutputStream fos;
         try {
-            fos = new FileOutputStream(imagePath);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            fos.flush();
-            fos.close();
-        } catch (FileNotFoundException e) {
-            Log.e("GREC", e.getMessage(), e);
+            File mainDir = new File(
+                    this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Screenshots");
+            if (!mainDir.exists()) {
+                boolean mkdir = mainDir.mkdir();
+            }
+
+            String path = mainDir + "/" + "SnookerScoreboard" + "-" + format + ".jpeg";
+            view.setDrawingCacheEnabled(true);
+            Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+            //Bitmap bitmap = getBitmapFromView(container, container.getChildAt(0).getHeight(), container.getChildAt(0).getWidth());
+
+            view.setDrawingCacheEnabled(false);
+
+            File imageFile = new File(path);
+            FileOutputStream fileOutputStream = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, fileOutputStream);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+
+            shareScreenShot(imageFile);
         } catch (IOException e) {
-            Log.e("GREC", e.getMessage(), e);
+            e.printStackTrace();
+        }
+    }
+    private Bitmap getBitmapFromView(View view, int height, int width) {
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        Drawable bgDrawable = view.getBackground();
+        if (bgDrawable != null)
+            bgDrawable.draw(canvas);
+        else
+            canvas.drawColor(Color.WHITE);
+        view.draw(canvas);
+        return bitmap;
+    }
+
+    private void shareScreenShot(File imageFile) {
+        Uri uri = FileProvider.getUriForFile(
+            Objects.requireNonNull(getApplicationContext()),
+            BuildConfig.APPLICATION_ID + ".provider",
+            imageFile
+        );
+
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("image/*");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, "Snooker Scoreboard Screenshot");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        try {
+            this.startActivity(Intent.createChooser(intent, "Share With"));
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, "No App Available to share this file type.", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void shareScreenshot() {
-        Uri uri = Uri.fromFile(imagePath);
-        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-        sharingIntent.setType("image/*");
-        String shareBody = "Snooker Scoreboard";
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Game");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-        sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static final String[] PERMISSION_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    };
 
-        this.startActivity(Intent.createChooser(sharingIntent, "Share via"));
+    public static void verifyStoragePermission(Activity activity) {
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSION_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE);
+        }
     }
 
 }

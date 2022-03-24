@@ -43,13 +43,17 @@ public class OptionsActivity extends AppCompatActivity {
 
     public void bUpdateP1(View view){
         Animate.animateButton(view.findViewById(R.id.bSave1));
-        Option.setDefaultPlayerName( 1, p1Name.getText().toString());
-        Toast.makeText(this, "Default Player One name updated.", Toast.LENGTH_SHORT).show();
+        if(Option.setDefaultPlayerName( 1, p1Name.getText().toString())) {
+            p1Name.setTextColor(getResources().getColor(R.color.colorWhite));
+            Toast.makeText(this, "Default Player One name updated.", Toast.LENGTH_SHORT).show();
+        }
     }
     public void bUpdateP2(View view){
         Animate.animateButton(view.findViewById(R.id.bSave2));
-        Option.setDefaultPlayerName( 2, p2Name.getText().toString());
-        Toast.makeText(this, "Default Player Two name updated.", Toast.LENGTH_SHORT).show();
+        if(Option.setDefaultPlayerName( 2, p2Name.getText().toString())) {
+            p2Name.setTextColor(getResources().getColor(R.color.colorWhite));
+            Toast.makeText(this, "Default Player Two name updated.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void bClose(View view){

@@ -14,96 +14,116 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvHeader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_medium"
-        android:paddingTop="25dp"
-        android:paddingBottom="15dp"
-        android:text="@string/match_summary"
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textSize="22sp"
-        android:textStyle="italic"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
-        android:id="@+id/summary"
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="20dp"
-        android:background="@color/cardview_shadow_start_color"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/scrollScores"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvHeader">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TableLayout
-            android:id="@+id/tblSummary"
+        <TextView
+            android:id="@+id/tvHeader"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingTop="25dp"
+            android:paddingBottom="15dp"
+            android:text="@string/match_summary"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            android:textStyle="italic" />
+
+        <LinearLayout
+            android:id="@+id/summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/cardview_shadow_start_color"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:id="@+id/tblSummary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/scrollScores"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/cardview_shadow_start_color">
+
+            <LinearLayout
+                android:id="@+id/linearScores"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+                <TableLayout
+                    android:id="@+id/tblStats"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></TableLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
 
     </LinearLayout>
 
-
-    <ScrollView
-        android:id="@+id/scrollScores"
+    <LinearLayout
+        android:id="@+id/buttons"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="5dp"
-        android:background="@color/cardview_shadow_start_color"
-        app:layout_constraintBottom_toTopOf="@id/share"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/summary">
-
-        <LinearLayout
-            android:id="@+id/linearScores"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:weightSum="1">
-
-            <TableLayout
-                android:id="@+id/tblStats"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </TableLayout>
-
-        </LinearLayout>
-    </ScrollView>
-
-    <Button
-        android:id="@+id/share"
-        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:background="@android:drawable/ic_menu_share"
-        android:gravity="center"
-        android:onClick="bShare"
-        app:layout_constraintBottom_toTopOf="@id/btnBack"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button"
-        android:gravity="center"
-        android:onClick="bClose"
-        android:text="@string/close"
-        android:textColor="@android:color/white"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/container">
+
+        <LinearLayout
+            android:id="@+id/shareLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@drawable/text_border"
+            android:padding="10px"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:id="@+id/btnShare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_share"
+                android:padding="5px"
+                android:contentDescription="share" />
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/button"
+            android:onClick="bClose"
+            android:text="@string/close"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

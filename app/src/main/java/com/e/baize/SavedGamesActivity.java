@@ -55,7 +55,7 @@ public class SavedGamesActivity extends AppCompatActivity implements GameRecycle
         Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         vibe.vibrate(100);
 
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
         String message = " \n \n" + game.CreatedDate + "\n" + game.PlayerOneName +" ["+ game.playerOneScore +"]   vs.   ["+ game.playerTwoScore + "] " + game.PlayerTwoName;
         alertBuilder.setMessage("Are you sure you want to delete the following game?" + message)
                 .setTitle("Delete Game")

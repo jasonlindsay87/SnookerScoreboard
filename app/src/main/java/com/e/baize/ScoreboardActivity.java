@@ -453,7 +453,7 @@ public class ScoreboardActivity extends AppCompatActivity {
 
     private void onNewFramePressed(View view) {
         if (playerOne.getFrameScore(frame) != playerTwo.getFrameScore(frame)) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Start a new frame?")
                     .setTitle("End Frame")
                     .setCancelable(false)

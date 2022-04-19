@@ -1,13 +1,22 @@
 package com.e.baize;
 import androidx.annotation.RequiresApi;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -109,6 +118,21 @@ public class HomeActivity extends AppCompatActivity {
             return(true);
         case R.id.exit:
             this.finishAffinity();
+            return(true);
+        case R.id.about:
+           AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("About")
+                .setMessage(Html.fromHtml("Snooker Scoreboard v4.0 <br><br>" +
+                        "<a href='https://paypal.me/BaizeSoftware?country.x=GB&locale.x=en_GB'>Donate</a> <span> \u2615</span><br><br>" +
+                        "Copyright \u00A9 2022 Baize Software"))
+                .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {  }
+                });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            ((TextView) dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
             return(true);
     }
         return(super.onOptionsItemSelected(item));

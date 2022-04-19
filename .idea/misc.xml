@@ -33,9 +33,14 @@
         <entry key="..\:/Users/Jason/Source/Repos/SnookerScoreboard/app/src/main/res/drawable/ic_share.xml" value="0.1005" />
         <entry key="..\:/Users/Jason/Source/Repos/SnookerScoreboard/app/src/main/res/drawable/text_background.xml" value="0.121" />
         <entry key="..\:/Users/Jason/Source/Repos/SnookerScoreboard/app/src/main/res/drawable/text_border.xml" value="0.121" />
+        <entry key="..\:/Users/Jason/Source/Repos/SnookerScoreboard/app/src/main/res/layout/activity_home.xml" value="0.1526293287729799" />
         <entry key="..\:/Users/Jason/Source/Repos/SnookerScoreboard/app/src/main/res/layout/activity_options.xml" value="0.25" />
+        <entry key="..\:/Users/Jason/Source/Repos/SnookerScoreboard/app/src/main/res/layout/activity_saved_games.xml" value="0.20521590423257802" />
         <entry key="..\:/Users/Jason/Source/Repos/SnookerScoreboard/app/src/main/res/layout/activity_scoreboard.xml" value="0.25" />
         <entry key="..\:/Users/Jason/Source/Repos/SnookerScoreboard/app/src/main/res/layout/activity_stats.xml" value="0.4461538461538462" />
+        <entry key="..\:/Users/Jason/Source/Repos/SnookerScoreboard/app/src/main/res/layout/recyclerview_row.xml" value="0.20521590423257802" />
+        <entry key="..\:/Users/Jason/Source/Repos/SnookerScoreboard/app/src/main/res/layout/stats_layout.xml" value="0.20521590423257802" />
+        <entry key="..\:/Users/Jason/Source/Repos/SnookerScoreboard/app/src/main/res/menu/home_menu.xml" value="0.1526293287729799" />
         <entry key="..\:/Users/Jason/Source/Repos/SnookerScoreboard/app/src/main/res/menu/scoreboard_menu.xml" value="0.25" />
         <entry key="..\:/Users/Jason/Source/Repos/SnookerScoreboard/app/src/main/res/xml/file_path.xml" value="0.10989583333333333" />
       </map>

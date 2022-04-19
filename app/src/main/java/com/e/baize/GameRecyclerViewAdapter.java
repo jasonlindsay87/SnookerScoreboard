@@ -1,7 +1,5 @@
 package com.e.baize;
 
-import android.app.Application;
-import android.bluetooth.le.ScanSettings;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,7 +28,7 @@ public class GameRecyclerViewAdapter extends RecyclerView.Adapter<GameRecyclerVi
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.recyclerview_row, parent, false);
+        View view = mInflater.inflate(R.layout.row_saved_game, parent, false);
         return new ViewHolder(view);
     }
 

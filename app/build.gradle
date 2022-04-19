@@ -1,17 +1,17 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     defaultConfig {
         applicationId "com.e.baize"
         minSdkVersion 25
-        targetSdkVersion 29
+        targetSdkVersion 30
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        versionCode 1_5
-        versionName '3'
-        versionNameSuffix '3'
+        versionCode 4_0
+        versionName '4'
+        versionNameSuffix '4'
     }
 
     buildTypes {

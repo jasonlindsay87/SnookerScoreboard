@@ -122,7 +122,7 @@ public class HomeActivity extends AppCompatActivity {
         case R.id.about:
            AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle("About")
-                .setMessage(Html.fromHtml("Snooker Scoreboard v4.0 <br><br>" +
+                .setMessage(Html.fromHtml("Snooker Scoreboard v5.1 <br><br>" +
                         "<a href='https://paypal.me/BaizeSoftware?country.x=GB&locale.x=en_GB'>Donate</a> <span> \u2615</span><br><br>" +
                         "Copyright \u00A9 2022 Baize Software"))
                 .setPositiveButton("Close", new DialogInterface.OnClickListener() {

@@ -1,17 +1,17 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     defaultConfig {
         applicationId "com.e.baize"
         minSdkVersion 25
-        targetSdkVersion 30
+        targetSdkVersion 31
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        versionCode 4_0
-        versionName '4'
-        versionNameSuffix '4'
+        versionCode 5_1
+        versionName '5.1'
+        versionNameSuffix '5.1'
     }
 
     buildTypes {
@@ -44,7 +44,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.google.android.material:material:1.0.0'
-    implementation 'com.android.support:appcompat-v7:29.0.0'
+    implementation 'com.android.support:appcompat-v7:31.0.0'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 }
 task wrapper(type: Wrapper) {
